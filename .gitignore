@@ -1,5 +1,4 @@
 node_modules/*
-vendor/*
 # ignore all svg and images
 *.svg
 *.png
