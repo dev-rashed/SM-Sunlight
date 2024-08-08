@@ -1,0 +1,38 @@
+{
+  "menu": [
+    {
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "",
+      "url": ""
+    },
+    { 
+      "name": "Customers",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "slug": "customers",
+      "url": "customers",
+      "role": "admin,sales,manager"
+    },
+    {
+      "name": "Administrative",
+      "icon": "menu-icon tf-icons bx bx-user-circle",
+      "slug": "administrative",
+      "url": "administrative",
+      "role": "admin"
+    },
+    {
+      "name": "Reports",
+      "icon": "menu-icon tf-icons bx bx-user-circle",
+      "slug": "reports",
+      "url": "reports",
+      "role": "admin"
+    },
+    {
+      "name": "App Settings",
+      "icon": "menu-icon tf-icons bx bx-shape-polygon",
+      "slug": "app_setting",
+      "url" : "app_setting",
+      "role": "admin"
+    }
+  ]
+}
