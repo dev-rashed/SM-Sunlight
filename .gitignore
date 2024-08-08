@@ -1,7 +1,3 @@
 node_modules/*
 # ignore all svg and images
-*.svg
-*.png
-*.jpg
-*.jpeg
-*.gif
+
