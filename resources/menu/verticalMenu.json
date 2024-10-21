@@ -28,6 +28,13 @@
       "role": "admin"
     },
     {
+      "name": "Home Visit Reports",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "homevisitreport",
+      "url": "homevisitreport",
+      "role": "admin,sales,manager"
+    },
+    {
       "name": "App Settings",
       "icon": "menu-icon tf-icons bx bx-shape-polygon",
       "slug": "app_setting",

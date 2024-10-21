@@ -1,10 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class WebpEncoder extends AbstractEncoder
+use Intervention\Image\Drivers\SpecializableEncoder;
+
+class WebpEncoder extends SpecializableEncoder
 {
-    public function __construct(public int $quality = 75)
+    /**
+     * Create new encoder object
+     *
+     * @param int $quality
+     * @return void
+     */
+    public function __construct(public int $quality = self::DEFAULT_QUALITY)
     {
     }
 }

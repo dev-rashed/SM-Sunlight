@@ -1,17 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ColorizeModifier as GenericColorizeModifier;
 
-/**
- * @property int $red
- * @property int $green
- * @property int $blue
- */
-class ColorizeModifier extends DriverSpecializedModifier
+class ColorizeModifier extends GenericColorizeModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

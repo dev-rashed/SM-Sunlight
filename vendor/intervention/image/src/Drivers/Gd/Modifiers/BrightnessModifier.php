@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\BrightnessModifier as GenericBrightnessModifier;
 
-/**
- * @property int $level
- */
-class BrightnessModifier extends DriverSpecializedModifier
+class BrightnessModifier extends GenericBrightnessModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         foreach ($image as $frame) {

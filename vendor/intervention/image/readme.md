@@ -1,30 +1,32 @@
 # Intervention Image
-## PHP Image Manipulation
+## PHP Image Processing
 
 [![Latest Version](https://img.shields.io/packagist/v/intervention/image.svg)](https://packagist.org/packages/intervention/image)
 [![Build Status](https://github.com/Intervention/image/actions/workflows/run-tests.yml/badge.svg)](https://github.com/Intervention/image/actions)
 [![Monthly Downloads](https://img.shields.io/packagist/dm/intervention/image.svg)](https://packagist.org/packages/intervention/image/stats)
+[![Support me on Ko-fi](https://raw.githubusercontent.com/Intervention/image/develop/.github/images/support.svg)](https://ko-fi.com/interventionphp)
 
-Intervention Image is a **image handling and manipulation library written in
-PHP** providing an easy and expressive way to create, edit, and compose
-images. GD library or Imagick can be selected as the base layer for all
-operations.
+Intervention Image is a **PHP image processing library** that provides a simple
+and expressive way to create, edit, and compose images. It features a unified
+API for the two most popular image manipulation extensions. You can choose
+between the GD library or Imagick as the base layer for all operations.
 
-- Simple interface for common image manipulation tasks
-- Interchangable driver architecture
+- Simple interface for common image editing tasks
+- Interchangeable driver architecture
 - Support for animated images
 - Framework-agnostic
 - PSR-12 compliant
 
 ## Installation
 
-You can install this package easily with [Composer](https://getcomposer.org/). Just require the package with the following command:
+You can easily install this library using [Composer](https://getcomposer.org).
+Just request the package with the following command:
 
 ```bash
 composer require intervention/image
 ```
 
-## Getting started
+## Getting Started
 
 Learn the [basics](https://image.intervention.io/v3/basics/instantiation/) on
 how to use Intervention Image and more with the [official
@@ -65,28 +67,16 @@ $encoded->save('images/example.jpg');
 - GD Library
 - Imagick PHP extension
 
-## Development & Testing
-
-With this package comes a Docker image to build a test suite and analysis
-container. To build this container you have to have Docker installed on your
-system. You can run all tests with this command.
-
-```bash
-docker-compose run --rm --build tests
-```
-
-Run the static analyzer on the code base.
-
-```bash
-docker-compose run --rm --build analysis
-```
-
 ## Security
 
 If you discover any security related issues, please email oliver@intervention.io directly.
 
+## Authors
+
+This library is developed and maintained by [Oliver Vogel](https://intervention.io)
+
+Thanks to the community of [contributors](https://github.com/Intervention/image/graphs/contributors) who have helped to improve this project.
+
 ## License
 
-Intervention Image is licensed under the [MIT License](http://opensource.org/licenses/MIT).
-
-Copyright 2023 [Oliver Vogel](http://intervention.io/)
+Intervention Image is licensed under the [MIT License](LICENSE).

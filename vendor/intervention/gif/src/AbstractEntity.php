@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Gif;
 
+use Intervention\Gif\Exceptions\EncoderException;
 use Intervention\Gif\Traits\CanDecode;
 use Intervention\Gif\Traits\CanEncode;
 use ReflectionClass;
@@ -20,6 +23,17 @@ abstract class AbstractEntity
      */
     public static function getShortClassname(): string
     {
-        return (new ReflectionClass(get_called_class()))->getShortName();
+        return (new ReflectionClass(static::class))->getShortName();
+    }
+
+    /**
+     * Cast object to string
+     *
+     * @throws EncoderException
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->encode();
     }
 }

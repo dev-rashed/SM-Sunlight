@@ -1,24 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
 use Imagick;
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\PlaceModifier as GenericPlaceModifier;
 
-/**
- * @method mixed getPosition(ImageInterface $image, ImageInterface $watermark)
- * @property mixed $element
- * @property string $position
- * @property int $offset_x
- * @property int $offset_y
- */
-class PlaceModifier extends DriverSpecializedModifier
+class PlaceModifier extends GenericPlaceModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {
         $watermark = $this->driver()->handleInput($this->element);
         $position = $this->getPosition($image, $watermark);
+
+        // set opacity of watermark
+        if ($this->opacity < 100) {
+            $watermark->core()->native()->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+            $watermark->core()->native()->evaluateImage(
+                Imagick::EVALUATE_DIVIDE,
+                $this->opacity > 0 ? 100 / $this->opacity : 1000,
+                Imagick::CHANNEL_ALPHA,
+            );
+        }
 
         foreach ($image as $frame) {
             $frame->native()->compositeImage(

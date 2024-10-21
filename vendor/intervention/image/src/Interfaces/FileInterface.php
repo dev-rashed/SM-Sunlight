@@ -1,13 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Interfaces;
+
+use Intervention\Image\Exceptions\RuntimeException;
 
 interface FileInterface
 {
     /**
      * Save data in given path in file system
      *
-     * @param  string $filepath
+     * @param string $filepath
+     * @throws RuntimeException
      * @return void
      */
     public function save(string $filepath): void;

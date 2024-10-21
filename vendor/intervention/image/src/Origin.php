@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 class Origin
@@ -33,6 +35,22 @@ class Origin
     public function mimetype(): string
     {
         return $this->mediaType();
+    }
+
+    /**
+     * Set media type of current instance
+     *
+     * @param string|MediaType $type
+     * @return Origin
+     */
+    public function setMediaType(string|MediaType $type): self
+    {
+        $this->mediaType = match (true) {
+            is_string($type) => $type,
+            default => $type->value,
+        };
+
+        return $this;
     }
 
     /**

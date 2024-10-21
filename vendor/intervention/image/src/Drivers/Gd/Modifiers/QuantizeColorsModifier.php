@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\SpecializedModifier;
+use Intervention\Image\Drivers\Gd\Cloner;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
 
-/**
- * @property int $limit
- * @property mixed $background
- */
-class QuantizeColorsModifier extends SpecializedModifier
+class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         if ($this->limit <= 0) {
@@ -31,12 +36,13 @@ class QuantizeColorsModifier extends SpecializedModifier
             $this->driver()->handleInput($this->background)
         );
 
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
+
         foreach ($image as $frame) {
             // create new image for color quantization
-            $reduced = imagecreatetruecolor($width, $height);
-
-            // retain resolution
-            $this->copyResolution($frame->native(), $reduced);
+            $reduced = Cloner::cloneEmpty($frame->native(), background: $blendingColor);
 
             // fill with background
             imagefill($reduced, 0, 0, $background);

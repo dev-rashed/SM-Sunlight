@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Interfaces;
 
 use Traversable;
 
+/**
+ * @extends Traversable<int|string, mixed>
+ */
 interface CollectionInterface extends Traversable
 {
     /**
@@ -18,9 +23,9 @@ interface CollectionInterface extends Traversable
      * Add item to collection
      *
      * @param mixed $item
-     * @return CollectionInterface
+     * @return CollectionInterface<int|string, mixed>
      */
-    public function push($item): CollectionInterface;
+    public function push($item): self;
 
     /**
      * Return item for given key or return default is key does not exist
@@ -64,7 +69,23 @@ interface CollectionInterface extends Traversable
     /**
      * Empty collection
      *
-     * @return CollectionInterface
+     * @return CollectionInterface<int|string, mixed>
      */
-    public function empty(): CollectionInterface;
+    public function empty(): self;
+
+    /**
+     * Transform collection as array
+     *
+     * @return array<int|string, mixed>
+     */
+    public function toArray(): array;
+
+    /**
+     * Extract items based on given values and discard the rest.
+     *
+     * @param int $offset
+     * @param null|int $length
+     * @return CollectionInterface<int|string, mixed>
+     */
+    public function slice(int $offset, ?int $length = 0): self;
 }

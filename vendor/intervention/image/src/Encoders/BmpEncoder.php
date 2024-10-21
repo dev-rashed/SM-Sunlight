@@ -1,7 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Encoders;
 
-class BmpEncoder extends AbstractEncoder
+use Intervention\Image\Drivers\SpecializableEncoder;
+
+class BmpEncoder extends SpecializableEncoder
 {
+    public function __construct()
+    {
+    }
 }

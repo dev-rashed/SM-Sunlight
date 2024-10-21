@@ -1,15 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Geometry\Factories;
 
+use Closure;
 use Intervention\Image\Geometry\Point;
 use Intervention\Image\Geometry\Line;
+use Intervention\Image\Interfaces\DrawableFactoryInterface;
+use Intervention\Image\Interfaces\DrawableInterface;
 
-class LineFactory
+class LineFactory implements DrawableFactoryInterface
 {
     protected Line $line;
 
-    public function __construct(callable|Line $init)
+    /**
+     * Create the factory instance
+     *
+     * @param null|Closure|Line $init
+     * @return void
+     */
+    public function __construct(null|Closure|Line $init = null)
     {
         $this->line = is_a($init, Line::class) ? $init : new Line(new Point(), new Point());
 
@@ -18,6 +29,32 @@ class LineFactory
         }
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::init()
+     */
+    public static function init(null|Closure|DrawableInterface $init = null): self
+    {
+        return new self($init);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableFactoryInterface::create()
+     */
+    public function create(): DrawableInterface
+    {
+        return $this->line;
+    }
+
+    /**
+     * Set the color of the line to be produced
+     *
+     * @param mixed $color
+     * @return LineFactory
+     */
     public function color(mixed $color): self
     {
         $this->line->setBackgroundColor($color);
@@ -26,6 +63,12 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Set the (background) color of the line to be produced
+     *
+     * @param mixed $color
+     * @return LineFactory
+     */
     public function background(mixed $color): self
     {
         $this->line->setBackgroundColor($color);
@@ -34,6 +77,13 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Set the border size & border color of the line to be produced
+     *
+     * @param mixed $color
+     * @param int $size
+     * @return LineFactory
+     */
     public function border(mixed $color, int $size = 1): self
     {
         $this->line->setBackgroundColor($color);
@@ -43,6 +93,12 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Set the width of the line to be produced
+     *
+     * @param int $size
+     * @return LineFactory
+     */
     public function width(int $size): self
     {
         $this->line->setWidth($size);
@@ -50,6 +106,13 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Set the coordinates of the starting point of the line to be produced
+     *
+     * @param int $x
+     * @param int $y
+     * @return LineFactory
+     */
     public function from(int $x, int $y): self
     {
         $this->line->setStart(new Point($x, $y));
@@ -57,6 +120,13 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Set the coordinates of the end point of the line to be produced
+     *
+     * @param int $x
+     * @param int $y
+     * @return LineFactory
+     */
     public function to(int $x, int $y): self
     {
         $this->line->setEnd(new Point($x, $y));
@@ -64,6 +134,11 @@ class LineFactory
         return $this;
     }
 
+    /**
+     * Produce the line
+     *
+     * @return Line
+     */
     public function __invoke(): Line
     {
         return $this->line;

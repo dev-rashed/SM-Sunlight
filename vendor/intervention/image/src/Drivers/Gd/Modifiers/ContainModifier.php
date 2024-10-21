@@ -1,64 +1,64 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
 use Intervention\Image\Colors\Rgb\Channels\Blue;
 use Intervention\Image\Colors\Rgb\Channels\Green;
 use Intervention\Image\Colors\Rgb\Channels\Red;
-use Intervention\Image\Drivers\Gd\SpecializedModifier;
+use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\ColorInterface;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
-use Intervention\Image\Modifiers\FillModifier;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ContainModifier as GenericContainModifier;
 
-/**
- * @method SizeInterface getCropSize(ImageInterface $image)
- * @method SizeInterface getResizeSize(ImageInterface $image)
- * @property int $width
- * @property int $height
- * @property mixed $background
- * @property string $position
- */
-class ContainModifier extends SpecializedModifier
+class ContainModifier extends GenericContainModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
         $resize = $this->getResizeSize($image);
         $background = $this->driver()->handleInput($this->background);
+        $blendingColor = $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
 
         foreach ($image as $frame) {
-            $this->modify($frame, $crop, $resize, $background);
+            $this->modify($frame, $crop, $resize, $background, $blendingColor);
         }
 
         return $image;
     }
 
+    /**
+     * @throws ColorException
+     */
     protected function modify(
         FrameInterface $frame,
         SizeInterface $crop,
         SizeInterface $resize,
-        ColorInterface $background
+        ColorInterface $background,
+        ColorInterface $blendingColor
     ): void {
         // create new gd image
-        $modified = $this->driver()->createImage(
-            $resize->width(),
-            $resize->height()
-        )->modify(
-            new FillModifier($background)
-        )->core()->native();
-
-        // retain resolution
-        $this->copyResolution($frame->native(), $modified);
+        $modified = Cloner::cloneEmpty($frame->native(), $resize, $background);
 
         // make image area transparent to keep transparency
         // even if background-color is set
         $transparent = imagecolorallocatealpha(
             $modified,
-            $background->channel(Red::class)->value(),
-            $background->channel(Green::class)->value(),
-            $background->channel(Blue::class)->value(),
+            $blendingColor->channel(Red::class)->value(),
+            $blendingColor->channel(Green::class)->value(),
+            $blendingColor->channel(Blue::class)->value(),
             127,
         );
         imagealphablending($modified, false); // do not blend / just overwrite
@@ -87,7 +87,7 @@ class ContainModifier extends SpecializedModifier
             $frame->size()->height()
         );
 
-        // set new content as recource
+        // set new content as resource
         $frame->setNative($modified);
     }
 }

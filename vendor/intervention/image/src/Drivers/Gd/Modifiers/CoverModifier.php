@@ -1,18 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\Gd\SpecializedModifier;
+use Intervention\Image\Drivers\Gd\Cloner;
+use Intervention\Image\Exceptions\ColorException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\CoverModifier as GenericCoverModifier;
 
-/**
- * @method SizeInterface getResizeSize(ImageInterface $image)
- * @method SizeInterface getCropSize(ImageInterface $image)
- */
-class CoverModifier extends SpecializedModifier
+class CoverModifier extends GenericCoverModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $crop = $this->getCropSize($image);
@@ -25,34 +31,18 @@ class CoverModifier extends SpecializedModifier
         return $image;
     }
 
+    /**
+     * @throws ColorException
+     */
     protected function modifyFrame(FrameInterface $frame, SizeInterface $crop, SizeInterface $resize): void
     {
         // create new image
-        $modified = $this->driver()->createImage(
-            $resize->width(),
-            $resize->height()
-        )->core()->native();
-
-        // get original image
-        $original = $frame->native();
-
-        // retain resolution
-        $this->copyResolution($original, $modified);
-
-        // preserve transparency
-        $transIndex = imagecolortransparent($original);
-
-        if ($transIndex != -1) {
-            $rgba = imagecolorsforindex($modified, $transIndex);
-            $transColor = imagecolorallocatealpha($modified, $rgba['red'], $rgba['green'], $rgba['blue'], 127);
-            imagefill($modified, 0, 0, $transColor);
-            imagecolortransparent($modified, $transColor);
-        }
+        $modified = Cloner::cloneEmpty($frame->native(), $resize);
 
         // copy content from resource
         imagecopyresampled(
             $modified,
-            $original,
+            $frame->native(),
             0,
             0,
             $crop->pivot()->x(),

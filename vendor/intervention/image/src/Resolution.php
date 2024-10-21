@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
 use Intervention\Image\Interfaces\ResolutionInterface;
@@ -21,7 +23,6 @@ class Resolution implements ResolutionInterface
         protected float $y,
         protected int $per_unit = self::PER_INCH
     ) {
-        //
     }
 
     /**

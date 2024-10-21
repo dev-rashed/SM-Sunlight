@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Geometry;
 
 use Intervention\Image\Geometry\Traits\HasBackgroundColor;
@@ -27,7 +29,6 @@ class Ellipse implements DrawableInterface
     ) {
     }
 
-
     /**
      * {@inheritdoc}
      *
@@ -36,6 +37,18 @@ class Ellipse implements DrawableInterface
     public function position(): PointInterface
     {
         return $this->pivot;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see DrawableInterface::setPosition()
+     */
+    public function setPosition(PointInterface $position): self
+    {
+        $this->pivot = $position;
+
+        return $this;
     }
 
     /**

@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
-class ProfileRemovalModifier extends AbstractModifier
+use Intervention\Image\Drivers\SpecializableModifier;
+
+class ProfileRemovalModifier extends SpecializableModifier
 {
 }

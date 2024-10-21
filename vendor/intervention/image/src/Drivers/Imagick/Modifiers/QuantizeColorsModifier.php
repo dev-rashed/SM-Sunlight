@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Imagick\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Exceptions\InputException;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\QuantizeColorsModifier as GenericQuantizeColorsModifier;
 
-/**
- * @property int $limit
- * @property mixed $background
- */
-class QuantizeColorsModifier extends DriverSpecializedModifier
+class QuantizeColorsModifier extends GenericQuantizeColorsModifier implements SpecializedInterface
 {
     public function apply(ImageInterface $image): ImageInterface
     {

@@ -1,17 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Interfaces\PointInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\DrawPixelModifier as GenericDrawPixelModifier;
 
-/**
- * @property PointInterface $position
- * @property mixed $color
- */
-class DrawPixelModifier extends DriverSpecializedModifier
+class DrawPixelModifier extends GenericDrawPixelModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->driver()->colorProcessor($image->colorspace())->colorToNative(

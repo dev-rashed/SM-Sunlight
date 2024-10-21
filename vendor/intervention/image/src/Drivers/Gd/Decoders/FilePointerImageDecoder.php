@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Decoders;
 
 use Intervention\Image\Exceptions\DecoderException;
@@ -8,6 +10,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 class FilePointerImageDecoder extends BinaryImageDecoder
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see DecoderInterface::decode()
+     */
     public function decode(mixed $input): ImageInterface|ColorInterface
     {
         if (!is_resource($input) || !in_array(get_resource_type($input), ['file', 'stream'])) {

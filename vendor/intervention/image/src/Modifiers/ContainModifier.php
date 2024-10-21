@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Drivers\SpecializableModifier;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\SizeInterface;
 
-class ContainModifier extends AbstractModifier
+class ContainModifier extends SpecializableModifier
 {
     public function __construct(
         public int $width,
@@ -16,6 +20,9 @@ class ContainModifier extends AbstractModifier
     ) {
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function getCropSize(ImageInterface $image): SizeInterface
     {
         return $image->size()

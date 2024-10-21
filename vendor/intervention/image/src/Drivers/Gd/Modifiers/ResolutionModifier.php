@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
 use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\ResolutionModifier as GenericResolutionModifier;
 
-/**
- * @property int $x
- * @property int $y
- */
-class ResolutionModifier extends DriverSpecializedModifier
+class ResolutionModifier extends GenericResolutionModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $x = intval(round($this->x));

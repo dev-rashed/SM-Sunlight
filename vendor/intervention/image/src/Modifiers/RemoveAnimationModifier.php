@@ -1,18 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Modifiers;
 
+use Intervention\Image\Drivers\SpecializableModifier;
 use Intervention\Image\Exceptions\InputException;
+use Intervention\Image\Exceptions\RuntimeException;
 use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 
-class RemoveAnimationModifier extends AbstractModifier
+class RemoveAnimationModifier extends SpecializableModifier
 {
     public function __construct(public int|string $position = 0)
     {
-        //
     }
 
+    /**
+     * @throws RuntimeException
+     */
     public function chosenFrame(ImageInterface $image, int|string $position): FrameInterface
     {
         if (is_int($position)) {

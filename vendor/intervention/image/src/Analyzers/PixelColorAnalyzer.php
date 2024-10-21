@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Analyzers;
 
-class PixelColorAnalyzer extends AbstractAnalyzer
+use Intervention\Image\Drivers\SpecializableAnalyzer;
+
+class PixelColorAnalyzer extends SpecializableAnalyzer
 {
     public function __construct(
         public int $x,

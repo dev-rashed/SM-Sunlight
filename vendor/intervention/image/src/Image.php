@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image;
 
-use Countable;
+use Closure;
+use Intervention\Image\Exceptions\RuntimeException;
 use Traversable;
 use Intervention\Image\Analyzers\ColorspaceAnalyzer;
 use Intervention\Image\Analyzers\HeightAnalyzer;
@@ -17,18 +20,26 @@ use Intervention\Image\Encoders\BmpEncoder;
 use Intervention\Image\Encoders\FileExtensionEncoder;
 use Intervention\Image\Encoders\FilePathEncoder;
 use Intervention\Image\Encoders\GifEncoder;
+use Intervention\Image\Encoders\HeicEncoder;
 use Intervention\Image\Encoders\Jpeg2000Encoder;
 use Intervention\Image\Encoders\JpegEncoder;
 use Intervention\Image\Encoders\MediaTypeEncoder;
 use Intervention\Image\Encoders\PngEncoder;
 use Intervention\Image\Encoders\TiffEncoder;
 use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Exceptions\EncoderException;
+use Intervention\Image\Geometry\Bezier;
+use Intervention\Image\Geometry\Circle;
+use Intervention\Image\Geometry\Ellipse;
+use Intervention\Image\Geometry\Factories\BezierFactory;
 use Intervention\Image\Geometry\Factories\CircleFactory;
 use Intervention\Image\Geometry\Factories\EllipseFactory;
 use Intervention\Image\Geometry\Factories\LineFactory;
 use Intervention\Image\Geometry\Factories\PolygonFactory;
 use Intervention\Image\Geometry\Factories\RectangleFactory;
+use Intervention\Image\Geometry\Line;
 use Intervention\Image\Geometry\Point;
+use Intervention\Image\Geometry\Polygon;
 use Intervention\Image\Geometry\Rectangle;
 use Intervention\Image\Interfaces\AnalyzerInterface;
 use Intervention\Image\Interfaces\CollectionInterface;
@@ -39,11 +50,14 @@ use Intervention\Image\Interfaces\DriverInterface;
 use Intervention\Image\Interfaces\EncodedImageInterface;
 use Intervention\Image\Interfaces\EncoderInterface;
 use Intervention\Image\Interfaces\FontInterface;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
 use Intervention\Image\Interfaces\ModifierInterface;
 use Intervention\Image\Interfaces\ProfileInterface;
 use Intervention\Image\Interfaces\ResolutionInterface;
 use Intervention\Image\Interfaces\SizeInterface;
+use Intervention\Image\Modifiers\AlignRotationModifier;
+use Intervention\Image\Modifiers\BlendTransparencyModifier;
 use Intervention\Image\Modifiers\BlurModifier;
 use Intervention\Image\Modifiers\BrightnessModifier;
 use Intervention\Image\Modifiers\ColorizeModifier;
@@ -51,6 +65,7 @@ use Intervention\Image\Modifiers\ColorspaceModifier;
 use Intervention\Image\Modifiers\ContainModifier;
 use Intervention\Image\Modifiers\ContrastModifier;
 use Intervention\Image\Modifiers\CropModifier;
+use Intervention\Image\Modifiers\DrawBezierModifier;
 use Intervention\Image\Modifiers\DrawEllipseModifier;
 use Intervention\Image\Modifiers\DrawLineModifier;
 use Intervention\Image\Modifiers\DrawPixelModifier;
@@ -80,10 +95,12 @@ use Intervention\Image\Modifiers\RotateModifier;
 use Intervention\Image\Modifiers\ScaleDownModifier;
 use Intervention\Image\Modifiers\ScaleModifier;
 use Intervention\Image\Modifiers\SharpenModifier;
+use Intervention\Image\Modifiers\SliceAnimationModifier;
 use Intervention\Image\Modifiers\TextModifier;
+use Intervention\Image\Modifiers\TrimModifier;
 use Intervention\Image\Typography\FontFactory;
 
-final class Image implements ImageInterface, Countable
+final class Image implements ImageInterface
 {
     /**
      * The origin from which the image was created
@@ -98,6 +115,7 @@ final class Image implements ImageInterface, Countable
      * @param DriverInterface $driver
      * @param CoreInterface $core
      * @param CollectionInterface $exif
+     * @throws RuntimeException
      * @return void
      */
     public function __construct(
@@ -163,7 +181,7 @@ final class Image implements ImageInterface, Countable
     /**
      * Implementation of IteratorAggregate
      *
-     * @return Traversable
+     * @return Traversable<FrameInterface>
      */
     public function getIterator(): Traversable
     {
@@ -188,6 +206,16 @@ final class Image implements ImageInterface, Countable
     public function removeAnimation(int|string $position = 0): ImageInterface
     {
         return $this->modify(new RemoveAnimationModifier($position));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::sliceAnimation()
+     */
+    public function sliceAnimation(int $offset = 0, ?int $length = null): ImageInterface
+    {
+        return $this->modify(new SliceAnimationModifier($offset, $length));
     }
 
     /**
@@ -225,11 +253,23 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::setExif()
+     */
+    public function setExif(CollectionInterface $exif): ImageInterface
+    {
+        $this->exif = $exif;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::modify()
      */
     public function modify(ModifierInterface $modifier): ImageInterface
     {
-        return $this->driver->resolve($modifier)->apply($this);
+        return $this->driver->specialize($modifier)->apply($this);
     }
 
     /**
@@ -239,7 +279,7 @@ final class Image implements ImageInterface, Countable
      */
     public function analyze(AnalyzerInterface $analyzer): mixed
     {
-        return $this->driver->resolve($analyzer)->analyze($this);
+        return $this->driver->specialize($analyzer)->analyze($this);
     }
 
     /**
@@ -247,9 +287,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encode()
      */
-    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImage
+    public function encode(EncoderInterface $encoder = new AutoEncoder()): EncodedImageInterface
     {
-        return $this->driver->resolve($encoder)->encode($this);
+        return $this->driver->specialize($encoder)->encode($this);
     }
 
     /**
@@ -257,11 +297,23 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::save()
      */
-    public function save(?string $path = null, int $quality = 75): ImageInterface
+    public function save(?string $path = null, mixed ...$options): ImageInterface
     {
         $path = is_null($path) ? $this->origin()->filePath() : $path;
 
-        $this->encodeByPath($path, $quality)->save($path);
+        if (is_null($path)) {
+            throw new EncoderException('Could not determine file path to save.');
+        }
+
+        try {
+            // try to determine encoding format by file extension of the path
+            $encoded = $this->encodeByPath($path, ...$options);
+        } catch (EncoderException) {
+            // fallback to encoding format by media type
+            $encoded = $this->encodeByMediaType(null, ...$options);
+        }
+
+        $encoded->save($path);
 
         return $this;
     }
@@ -354,6 +406,42 @@ final class Image implements ImageInterface, Countable
     public function pickColors(int $x, int $y): CollectionInterface
     {
         return $this->analyze(new PixelColorsAnalyzer($x, $y));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendingColor()
+     */
+    public function blendingColor(): ColorInterface
+    {
+        return $this->driver()->handleInput(
+            $this->driver()->config()->blendingColor
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::setBlendingColor()
+     */
+    public function setBlendingColor(mixed $color): ImageInterface
+    {
+        $this->driver()->config()->setOptions(
+            blendingColor: $this->driver()->handleInput($color)
+        );
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::blendTransparency()
+     */
+    public function blendTransparency(mixed $color = null): ImageInterface
+    {
+        return $this->modify(new BlendTransparencyModifier($color));
     }
 
     /**
@@ -519,9 +607,19 @@ final class Image implements ImageInterface, Countable
     /**
      * {@inheritdoc}
      *
+     * @see ImageInterface::orient()
+     */
+    public function orient(): ImageInterface
+    {
+        return $this->modify(new AlignRotationModifier());
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @see ImageInterface::text()
      */
-    public function text(string $text, int $x, int $y, callable|FontInterface $font): ImageInterface
+    public function text(string $text, int $x, int $y, callable|Closure|FontInterface $font): ImageInterface
     {
         return $this->modify(
             new TextModifier(
@@ -658,9 +756,20 @@ final class Image implements ImageInterface, Countable
         int $height,
         int $offset_x = 0,
         int $offset_y = 0,
+        mixed $background = 'ffffff',
         string $position = 'top-left'
     ): ImageInterface {
-        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $position));
+        return $this->modify(new CropModifier($width, $height, $offset_x, $offset_y, $background, $position));
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::trim()
+     */
+    public function trim(int $tolerance = 0): ImageInterface
+    {
+        return $this->modify(new TrimModifier($tolerance));
     }
 
     /**
@@ -672,9 +781,10 @@ final class Image implements ImageInterface, Countable
         mixed $element,
         string $position = 'top-left',
         int $offset_x = 0,
-        int $offset_y = 0
+        int $offset_y = 0,
+        int $opacity = 100
     ): ImageInterface {
-        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y));
+        return $this->modify(new PlaceModifier($element, $position, $offset_x, $offset_y, $opacity));
     }
 
     /**
@@ -687,7 +797,7 @@ final class Image implements ImageInterface, Countable
         return $this->modify(
             new FillModifier(
                 $color,
-                (is_null($x) || is_null($y)) ? null : new Point($x, $y),
+                is_null($x) || is_null($y) ? null : new Point($x, $y),
             ),
         );
     }
@@ -707,7 +817,7 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::drawRectangle()
      */
-    public function drawRectangle(int $x, int $y, callable|Rectangle $init): ImageInterface
+    public function drawRectangle(int $x, int $y, callable|Closure|Rectangle $init): ImageInterface
     {
         return $this->modify(
             new DrawRectangleModifier(
@@ -721,7 +831,7 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::drawEllipse()
      */
-    public function drawEllipse(int $x, int $y, callable $init): ImageInterface
+    public function drawEllipse(int $x, int $y, callable|Closure|Ellipse $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -735,7 +845,7 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::drawCircle()
      */
-    public function drawCircle(int $x, int $y, callable $init): ImageInterface
+    public function drawCircle(int $x, int $y, callable|Closure|Circle $init): ImageInterface
     {
         return $this->modify(
             new DrawEllipseModifier(
@@ -744,7 +854,12 @@ final class Image implements ImageInterface, Countable
         );
     }
 
-    public function drawPolygon(callable $init): ImageInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawPolygon()
+     */
+    public function drawPolygon(callable|Closure|Polygon $init): ImageInterface
     {
         return $this->modify(
             new DrawPolygonModifier(
@@ -753,11 +868,30 @@ final class Image implements ImageInterface, Countable
         );
     }
 
-    public function drawLine(callable $init): ImageInterface
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawLine()
+     */
+    public function drawLine(callable|Closure|Line $init): ImageInterface
     {
         return $this->modify(
             new DrawLineModifier(
                 call_user_func(new LineFactory($init)),
+            ),
+        );
+    }
+
+     /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::drawBezier()
+     */
+    public function drawBezier(callable|Closure|Bezier $init): ImageInterface
+    {
+        return $this->modify(
+            new DrawBezierModifier(
+                call_user_func(new BezierFactory($init)),
             ),
         );
     }
@@ -767,9 +901,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByMediaType()
      */
-    public function encodeByMediaType(?string $type = null, int $quality = 75): EncodedImageInterface
+    public function encodeByMediaType(null|string|MediaType $type = null, mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new MediaTypeEncoder($type, $quality));
+        return $this->encode(new MediaTypeEncoder($type, ...$options));
     }
 
     /**
@@ -777,9 +911,11 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByExtension()
      */
-    public function encodeByExtension(?string $extension = null, int $quality = 75): EncodedImageInterface
-    {
-        return $this->encode(new FileExtensionEncoder($extension, $quality));
+    public function encodeByExtension(
+        null|string|FileExtension $extension = null,
+        mixed ...$options
+    ): EncodedImageInterface {
+        return $this->encode(new FileExtensionEncoder($extension, ...$options));
     }
 
     /**
@@ -787,9 +923,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::encodeByPath()
      */
-    public function encodeByPath(?string $path = null, int $quality = 75): EncodedImageInterface
+    public function encodeByPath(?string $path = null, mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new FilePathEncoder($path, $quality));
+        return $this->encode(new FilePathEncoder($path, ...$options));
     }
 
     /**
@@ -797,20 +933,21 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toJpeg()
      */
-    public function toJpeg(int $quality = 75): EncodedImageInterface
+    public function toJpeg(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new JpegEncoder($quality));
+        return $this->encode(new JpegEncoder(...$options));
     }
 
     /**
      * Alias of self::toJpeg()
      *
-     * @param int $quality
+     * @param mixed $options
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function toJpg(int $quality = 75): EncodedImageInterface
+    public function toJpg(mixed ...$options): EncodedImageInterface
     {
-        return $this->toJpeg($quality);
+        return $this->toJpeg(...$options);
     }
 
     /**
@@ -818,20 +955,21 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toJpeg()
      */
-    public function toJpeg2000(int $quality = 75): EncodedImageInterface
+    public function toJpeg2000(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new Jpeg2000Encoder($quality));
+        return $this->encode(new Jpeg2000Encoder(...$options));
     }
 
     /**
      * ALias of self::toJpeg2000()
      *
-     * @param  int $quality
+     * @param mixed $options
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function toJp2(int $quality = 75): EncodedImageInterface
+    public function toJp2(mixed ...$options): EncodedImageInterface
     {
-        return $this->toJpeg2000($quality);
+        return $this->toJpeg2000(...$options);
     }
 
     /**
@@ -839,9 +977,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toPng()
      */
-    public function toPng(): EncodedImageInterface
+    public function toPng(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new PngEncoder());
+        return $this->encode(new PngEncoder(...$options));
     }
 
     /**
@@ -849,9 +987,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toGif()
      */
-    public function toGif(): EncodedImageInterface
+    public function toGif(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new GifEncoder());
+        return $this->encode(new GifEncoder(...$options));
     }
 
     /**
@@ -859,9 +997,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toWebp()
      */
-    public function toWebp(int $quality = 75): EncodedImageInterface
+    public function toWebp(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new WebpEncoder($quality));
+        return $this->encode(new WebpEncoder(...$options));
     }
 
     /**
@@ -869,19 +1007,20 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toBitmap()
      */
-    public function toBitmap(): EncodedImageInterface
+    public function toBitmap(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new BmpEncoder());
+        return $this->encode(new BmpEncoder(...$options));
     }
 
     /**
      * Alias if self::toBitmap()
      *
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function toBmp(): EncodedImageInterface
+    public function toBmp(mixed ...$options): EncodedImageInterface
     {
-        return $this->toBitmap();
+        return $this->toBitmap(...$options);
     }
 
     /**
@@ -889,9 +1028,9 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toAvif()
      */
-    public function toAvif(int $quality = 75): EncodedImageInterface
+    public function toAvif(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new AvifEncoder($quality));
+        return $this->encode(new AvifEncoder(...$options));
     }
 
     /**
@@ -899,20 +1038,31 @@ final class Image implements ImageInterface, Countable
      *
      * @see ImageInterface::toTiff()
      */
-    public function toTiff(int $quality = 75): EncodedImageInterface
+    public function toTiff(mixed ...$options): EncodedImageInterface
     {
-        return $this->encode(new TiffEncoder($quality));
+        return $this->encode(new TiffEncoder(...$options));
     }
 
     /**
      * Alias of self::toTiff()
      *
-     * @param int $quality
+     * @param mixed $options
+     * @throws RuntimeException
      * @return EncodedImageInterface
      */
-    public function toTif(int $quality = 75): EncodedImageInterface
+    public function toTif(mixed ...$options): EncodedImageInterface
     {
-        return $this->toTiff($quality);
+        return $this->toTiff(...$options);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @see ImageInterface::toHeic()
+     */
+    public function toHeic(mixed ...$options): EncodedImageInterface
+    {
+        return $this->encode(new HeicEncoder(...$options));
     }
 
     /**

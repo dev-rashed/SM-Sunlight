@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Analyzers;
 
-class ColorspaceAnalyzer extends AbstractAnalyzer
+use Intervention\Image\Drivers\SpecializableAnalyzer;
+
+class ColorspaceAnalyzer extends SpecializableAnalyzer
 {
 }

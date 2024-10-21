@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Intervention\Image\Drivers\Gd\Modifiers;
 
-use Intervention\Image\Drivers\DriverSpecializedModifier;
-use Intervention\Image\Drivers\Gd\Frame;
+use Intervention\Image\Exceptions\RuntimeException;
+use Intervention\Image\Interfaces\FrameInterface;
 use Intervention\Image\Interfaces\ImageInterface;
-use Intervention\Image\Geometry\Point;
+use Intervention\Image\Interfaces\SpecializedInterface;
+use Intervention\Image\Modifiers\FillModifier as GenericFillModifier;
 
-/**
- * @method bool hasPosition()
- * @property mixed $color
- * @property null|Point $position
- */
-class FillModifier extends DriverSpecializedModifier
+class FillModifier extends GenericFillModifier implements SpecializedInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @see ModifierInterface::apply()
+     */
     public function apply(ImageInterface $image): ImageInterface
     {
         $color = $this->color($image);
@@ -29,6 +32,9 @@ class FillModifier extends DriverSpecializedModifier
         return $image;
     }
 
+    /**
+     * @throws RuntimeException
+     */
     private function color(ImageInterface $image): int
     {
         return $this->driver()->colorProcessor($image->colorspace())->colorToNative(
@@ -36,7 +42,7 @@ class FillModifier extends DriverSpecializedModifier
         );
     }
 
-    private function floodFillWithColor(Frame $frame, int $color): void
+    private function floodFillWithColor(FrameInterface $frame, int $color): void
     {
         imagefill(
             $frame->native(),
@@ -46,7 +52,7 @@ class FillModifier extends DriverSpecializedModifier
         );
     }
 
-    private function fillAllWithColor(Frame $frame, int $color): void
+    private function fillAllWithColor(FrameInterface $frame, int $color): void
     {
         imagealphablending($frame->native(), true);
         imagefilledrectangle(
