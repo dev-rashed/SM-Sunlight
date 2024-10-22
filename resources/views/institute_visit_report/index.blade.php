@@ -33,7 +33,7 @@
     @endif
 
 <div class="container">
-    <h1>Institute Visit Reports</h1>
+    <h1>Home Visit Reports</h1>
 
     <table class="table">
         <thead>
