@@ -21,8 +21,8 @@ class CreateInstituteVisitReportsTable extends Migration
             $table->string('teachers_mobile_number')->unique();
             $table->integer('teachers_quantity');
             $table->integer('students_quantity');
-            $table->text('home_appliance_have')->nullable(); // Optional field
-            $table->text('home_appliance_dont_have')->nullable(); // Optional field
+            $table->text('home_appliance_have_f')->nullable(); // Optional field
+            $table->text('home_appliance_not_have_f')->nullable(); // Optional field
             $table->text('remarks')->nullable(); // Optional field
             $table->timestamps();
         });

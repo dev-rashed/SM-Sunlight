@@ -23,8 +23,8 @@ class InstituteVisitReportController extends Controller
             'teachers_mobile_number' => 'required|unique:institute_visit_reports',
             'teachers_quantity' => 'required|integer',
             'students_quantity' => 'required|integer',
-            'home_appliance_have' => 'required',
-            'home_appliance_dont_have' => 'required',
+            'home_appliance_have_f' => 'required',
+            'home_appliance_not_have_f' => 'required',
             'remarks' => 'required',
         ]);
 

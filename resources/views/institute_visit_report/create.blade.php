@@ -109,13 +109,13 @@
         </div>
 
         <div class="form-group">
-            <label for="home_appliance_have">Home Appliance Have:</label>
-            <textarea id="home_appliance_have" name="home_appliance_have"  required >IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
+            <label for="home_appliance_have_f">Home Appliance Have:</label>
+            <textarea id="home_appliance_have_f" name="home_appliance_have_f"  required >IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
 
         <div class="form-group">
-            <label for="home_appliance_not_have">Home Appliance Don't Have:</label>
-            <textarea id="home_appliance_not_have" name="home_appliance_not_have">IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
+            <label for="home_appliance_not_have_f">Home Appliance Don't Have:</label>
+            <textarea id="home_appliance_not_have_f" name="home_appliance_not_have_f">IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
 
         <div class="form-group">

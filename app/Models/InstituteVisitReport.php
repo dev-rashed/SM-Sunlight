@@ -16,8 +16,8 @@ class InstituteVisitReport extends Model
         'teachers_mobile_number',
         'teachers_quantity',
         'students_quantity',
-        'home_appliance_have',
-        'home_appliance_dont_have',
+        'home_appliance_have_f',
+        'home_appliance_not_have_f',
         'remarks',
     ];
 }

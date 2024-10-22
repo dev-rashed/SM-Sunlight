@@ -60,8 +60,8 @@
                     <td>{{ $report->teachers_mobile_number }}</td>
                     <td>{{ $report->teachers_quantity }}</td>
                     <td>{{ $report->students_quantity }}</td>
-                    <td>{{ $report->home_appliance_have }}</td>
-                    <td>{{ $report->home_appliance_dont_have }}</td>
+                    <td>{{ $report->home_appliance_have_f }}</td>
+                    <td>{{ $report->home_appliance_not_have_f }}</td>
                     <td>{{ $report->remarks }}</td>
                 </tr>
             @endforeach
