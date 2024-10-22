@@ -6,21 +6,19 @@
 
 
 
+
     <style>
         table {
             width: 100%;
             border-collapse: collapse;
         }
-        table, td {
+        table, th, td {
             border: 1px solid black;
             padding: 10px;
             text-align: left;
         }
         th {
             background-color: #f4f4f4;
-            border: 1px solid black;
-            padding: 10px;
-            text-align: center;
         }
     </style>
 
