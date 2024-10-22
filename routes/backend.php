@@ -8,6 +8,10 @@ use App\Http\Controllers\backend\CustomerController;
 
 use App\Http\Controllers\HomeVisitReportController;
 
+
+use App\Http\Controllers\InstituteVisitReportController;
+
+
 Route::get('test', [CustomerController::class, 'test']);
 
 Route::middleware(['auth'])->group(function () {
@@ -26,10 +30,21 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/homevisitreport', [HomeVisitReportController::class, 'index'])->name('homevisitreport.index');
   Route::get('/homevisitreport/create', [HomeVisitReportController::class, 'create'])->name('homevisitreport.create');
   Route::post('/homevisitreport/store', [HomeVisitReportController::class, 'store'])->name('homevisitreport.store');
+
+
+
+  Route::get('/institutevisitreport', [InstituteVisitReportController::class, 'index'])->name('institutevisitreport.index');
+  Route::get('/institutevisitreport/create', [InstituteVisitReportController::class, 'create'])->name('institutevisitreport.create');
+  Route::post('/institutevisitreport/store', [InstituteVisitReportController::class, 'store'])->name('institutevisitreport.store');
+
+
+
+
+
   
 
   Route::get('app_setting', [SettingController::class, 'appppSetting'])->name('app_settings');
-   Route::post('csv_import', [SettingController::class, 'csvImport'])->name('csv_import');
+  Route::post('csv_import', [SettingController::class, 'csvImport'])->name('csv_import');
 
   Route::group(['prefix' => 'app'], function () {
     // Users routes

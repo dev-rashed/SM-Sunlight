@@ -388,8 +388,8 @@ class ComposerStaticInite9eef80525cbd953ec184034280979b7
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -655,6 +655,7 @@ class ComposerStaticInite9eef80525cbd953ec184034280979b7
         'App\\Helpers\\Helpers' => __DIR__ . '/../..' . '/app/Helpers/Helpers.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeVisitReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeVisitReportController.php',
+        'App\\Http\\Controllers\\InstituteVisitReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/InstituteVisitReportController.php',
         'App\\Http\\Controllers\\backend\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/backend/AdminController.php',
         'App\\Http\\Controllers\\backend\\CustomerController' => __DIR__ . '/../..' . '/app/Http/Controllers/backend/CustomerController.php',
         'App\\Http\\Controllers\\backend\\SettingController' => __DIR__ . '/../..' . '/app/Http/Controllers/backend/SettingController.php',
@@ -678,6 +679,7 @@ class ComposerStaticInite9eef80525cbd953ec184034280979b7
         'App\\Mail\\NewApplicationMail' => __DIR__ . '/../..' . '/app/Mail/NewApplicationMail.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
         'App\\Models\\HomeVisitReport' => __DIR__ . '/../..' . '/app/Models/HomeVisitReport.php',
+        'App\\Models\\InstituteVisitReport' => __DIR__ . '/../..' . '/app/Models/InstituteVisitReport.php',
         'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',
         'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',
         'App\\Models\\Store' => __DIR__ . '/../..' . '/app/Models/Store.php',

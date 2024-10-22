@@ -35,6 +35,13 @@
       "role": "admin,sales,manager"
     },
     {
+      "name": "Institute Visit Reports",
+      "icon": "menu-icon tf-icons bx bx-home-circle",
+      "slug": "institutevisitreport",
+      "url": "institutevisitreport",
+      "role": "admin,sales,manager"
+    },
+    {
       "name": "App Settings",
       "icon": "menu-icon tf-icons bx bx-shape-polygon",
       "slug": "app_setting",
