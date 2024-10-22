@@ -26,6 +26,8 @@ class InstituteVisitReportController extends Controller
             'home_appliance_have_f' => 'required',
             'home_appliance_not_have_f' => 'required',
             'remarks' => 'required',
+            'created_at',
+            'updated_at',
         ]);
 
         // Store data in the database

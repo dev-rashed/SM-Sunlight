@@ -19,5 +19,7 @@ class InstituteVisitReport extends Model
         'home_appliance_have_f',
         'home_appliance_not_have_f',
         'remarks',
+        'created_at',
+        'updated_at',
     ];
 }

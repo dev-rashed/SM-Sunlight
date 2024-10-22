@@ -11,13 +11,16 @@
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
+        table, td {
             border: 1px solid black;
             padding: 10px;
             text-align: left;
         }
         th {
             background-color: #f4f4f4;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: center;
         }
     </style>
 
@@ -48,6 +51,8 @@
                 <th>Home Appliance Have</th>
                 <th>Home Appliance Don't Have</th>
                 <th>Remarks</th>
+                <th>Created At</th>
+                <th>Updated At</th>
             </tr>
         </thead>
         <tbody>
@@ -63,6 +68,8 @@
                     <td>{{ $report->home_appliance_have_f }}</td>
                     <td>{{ $report->home_appliance_not_have_f }}</td>
                     <td>{{ $report->remarks }}</td>
+                    <td>{{ $report->created_at }}</td>
+                    <td>{{ $report->updated_at }}</td>
                 </tr>
             @endforeach
         </tbody>
