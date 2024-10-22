@@ -26,6 +26,8 @@ class HomeVisitReportController extends Controller
             'home_appliance_have' => 'required',
             'home_appliance_not_have' => 'required',
             'remarks' => 'required',
+            'created_at',
+            'updated_at',
             
         ]);
 

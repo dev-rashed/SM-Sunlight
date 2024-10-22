@@ -52,6 +52,8 @@
                 <th>Home Appliance Have</th>
                 <th>Home Appliance Don't Have</th>
                 <th>Remarks</th>
+                <th>Created At</th>
+                <th>Updated At</th>
             </tr>
         </thead>
         <tbody>
@@ -68,6 +70,8 @@
                 <td>{{ $report->home_appliance_have }}</td>
                 <td>{{ $report->home_appliance_not_have }}</td>
                 <td>{{ $report->remarks }}</td>
+                <td>{{ $report->created_at }}</td>
+                <td>{{ $report->updated_at }}</td>
             </tr>
             @endforeach
         </tbody>

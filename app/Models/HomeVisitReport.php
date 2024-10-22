@@ -21,5 +21,7 @@ class HomeVisitReport extends Model
         'home_appliance_have',
         'home_appliance_not_have',
         'remarks',
+        'created_at',
+        'updated_at',
     ];
 }
