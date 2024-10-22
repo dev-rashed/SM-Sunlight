@@ -38,7 +38,7 @@
 <div class="container">
     <h1>Home Visit Reports</h1>
 
-    <table border="1">
+    <table class="table">
         <thead>
             <tr>
                 <th>Serial Number</th>
