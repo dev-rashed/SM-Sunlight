@@ -66,8 +66,15 @@
     }
 </style>
 
+
+<h4 class="py-3 breadcrumb-wrapper mb-4 d-flex justify-content-between">
+        <div><span class="text-muted fw-light">Institute Visit /</span> Report</div>
+        <a href="{{ route('institutevisitreport.index') }}" class="btn btn-primary">View Institute Visit Report</a>
+</h4>
+
+
 <div class="container">
-    <h1>Add Institute Visit Report</h1>
+    <h1>Add Institute Visit Report Form</h1>
 
     <form action="{{ route('institutevisitreport.store') }}" method="POST">
         @csrf
@@ -103,12 +110,12 @@
 
         <div class="form-group">
             <label for="home_appliance_have">Home Appliance Have:</label>
-            <textarea id="home_appliance_have" name="home_appliance_have"></textarea>
+            <textarea id="home_appliance_have" name="home_appliance_have"  required >IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
 
         <div class="form-group">
-            <label for="home_appliance_dont_have">Home Appliance Don't Have:</label>
-            <textarea id="home_appliance_dont_have" name="home_appliance_dont_have"></textarea>
+            <label for="home_appliance_not_have">Home Appliance Don't Have:</label>
+            <textarea id="home_appliance_not_have" name="home_appliance_not_have">IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
 
         <div class="form-group">

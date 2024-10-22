@@ -1,13 +1,11 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Visit Reports')
+@section('title', 'Home Visit Reports')
 
 @section('content')
-    <h4 class="py-3 breadcrumb-wrapper mb-4 d-flex justify-content-between">
-        <div><span class="text-muted fw-light">Home Visit /</span> Report</div>
-        <a href="{{ route('homevisitreport.create') }}" class="btn btn-primary">Add Home Visit Report</a>
-    </h4>
-    
+
+
+
 
     <style>
         table {
@@ -25,6 +23,14 @@
     </style>
 
 
+
+
+    <h4 class="py-3 breadcrumb-wrapper mb-4 d-flex justify-content-between">
+        <div><span class="text-muted fw-light">Home Visit /</span> Report</div>
+        <a href="{{ route('homevisitreport.create') }}" class="btn btn-primary">Add Home Visit Report</a>
+    </h4>
+    
+
     @if (session('success'))
         <p>{{ session('success') }}</p>
     @endif
@@ -41,7 +47,7 @@
                 <th>Thana</th>
                 <th>District</th>
                 <th>Home Appliance Have</th>
-                <th>Home Appliance Not Have</th>
+                <th>Home Appliance Don't Have</th>
                 <th>Remarks</th>
             </tr>
         </thead>

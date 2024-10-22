@@ -6,7 +6,7 @@
 
 
 
-<style>
+    <style>
         table {
             width: 100%;
             border-collapse: collapse;
@@ -27,6 +27,11 @@
         <div><span class="text-muted fw-light">Institute Visit /</span> Report</div>
         <a href="{{ route('institutevisitreport.create') }}" class="btn btn-primary">Add Institute Visit Report</a>
     </h4>
+
+    @if (session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
+
 <div class="container">
     <h1>Institute Visit Reports</h1>
 

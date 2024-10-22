@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Add Visit Reports')
+@section('title', 'Add Home Visit Reports')
 
 @section('content')
 
@@ -70,11 +70,11 @@
 
 <h4 class="py-3 breadcrumb-wrapper mb-4 d-flex justify-content-between">
         <div><span class="text-muted fw-light">Home Visit /</span> Report</div>
-        <a href="{{ route('homevisitreport.index') }}" class="btn btn-primary">View Report</a>
+        <a href="{{ route('homevisitreport.index') }}" class="btn btn-primary">View Home Visit Report</a>
 </h4>
 
 <div class="form-container">
-    <h1>Home Visit Report Form</h1>
+    <h1>Add Home Visit Report Form</h1>
     <form action="{{ route('homevisitreport.store') }}" method="POST">
         @csrf
         
@@ -156,7 +156,7 @@
         </div>
 
         <div class="form-group">
-            <label for="home_appliance_not_have">Home Appliance Not Have:</label>
+            <label for="home_appliance_not_have">Home Appliance Don't Have:</label>
             <textarea id="home_appliance_not_have" name="home_appliance_not_have">IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
 
