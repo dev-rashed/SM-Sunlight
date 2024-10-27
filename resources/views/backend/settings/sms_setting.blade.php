@@ -17,11 +17,11 @@
 @endsection
 
 @section('content')
-    <h4 class="py-3 breadcrumb-wrapper mb-4"><span class="text-muted fw-light">Settings/</span> App</h4>
+    <h4 class="py-3 breadcrumb-wrapper mb-4"><span class="text-muted fw-light">SMS Settings/</span> SMS</h4>
 
     <!-- Basic Layout -->
     <div class="row">
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
             <div class="card mb-4">
                 <div class="card-body">
                     <form action="{{ route('store_settings') }}" method="POST" enctype="multipart/form-data">
@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> -->
 
       <div class="col-md-6">
           <div class="card mb-4">
@@ -71,7 +71,7 @@
                   <div class="mb-3 col-12">
                     <label class="form-label" for="customer_sms">Customer SMS</label>
                     <input type="hidden" name="type[]" value="customer_sms">
-                    <textarea name="customer_sms" rows="8" class="form-control">{{app_setting('customer_sms')}}</textarea>
+                    <textarea name="customer_sms" rows="8" class="form-control">{{sms_setting('customer_sms')}}</textarea>
                     <span class="text-danger">
                       <strong><small>{sales_name} {sales_phone} {store_name} {store_phone} {store_address}</small></strong>
                     </span>

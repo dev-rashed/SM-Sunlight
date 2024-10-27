@@ -19,7 +19,9 @@ class SettingController extends Controller
   public function appppSetting() {
       return view('backend.settings.app_setting');
   }
-
+  public function smssetting() {
+      return view('backend.settings.sms_setting');
+  }
 
   public function store(Request $request)
   {

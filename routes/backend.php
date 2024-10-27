@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
   
 
   Route::get('app_setting', [SettingController::class, 'appppSetting'])->name('app_settings');
+  Route::get('sms_setting', [SettingController::class, 'smssetting'])->name('sms_setting');
   Route::post('csv_import', [SettingController::class, 'csvImport'])->name('csv_import');
 
   Route::group(['prefix' => 'app'], function () {
