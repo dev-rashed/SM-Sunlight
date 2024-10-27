@@ -35,11 +35,12 @@
         <p>{{ session('success') }}</p>
     @endif
 
-<div class="container">
-    <h1>Home Visit Reports</h1>
+    <h4>Home Visit Reports</h4>
 
-    <table class="table">
-        <thead>
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <table class="datatables-basic table table-bordered yajra-datatable">
+            <thead>
             <tr>
                 <th>Serial Number</th>
                 <th>Customer Name</th>
@@ -78,6 +79,7 @@
             @endforeach
         </tbody>
     </table>
+    </div>
 </div>
 @endsection
 

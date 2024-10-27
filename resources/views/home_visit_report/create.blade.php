@@ -94,6 +94,44 @@
         </div>
 
         <div class="form-group">
+            <label for="occupation">Occupation Name:</label>
+            <select id="occupation" name="occupation" required>
+                <option value="" disabled selected>Select an Occupation</option>
+                <option value="Farmer">Farmer </option>
+                <option value="Fisherman">Fisherman </option>
+                <option value="Teacher">Teacher </option>
+                <option value="Professor">Professor </option>
+                <option value="Lecturer">Lecturer </option>
+                <option value="Doctor">Doctor </option>
+                <option value="Nurse">Nurse </option>
+                <option value="Pharmacist">Pharmacist </option>
+                <option value="Dentist">Dentist </option>
+                <option value="Engineer">Engineer </option>
+                <option value="Business">Business </option>
+                <option value="Politician">Politician </option>
+                <option value="Journalist">Journalist </option>
+                <option value="Manager">Manager </option>
+                <option value="Accountant">Accountant </option>
+                <option value="Sales Representative">Sales Representative </option>
+                <option value="Banker">Banker </option>
+                <option value="Police Officer">Police Officer </option>
+                <option value="Army Officer">Army Officer </option>
+                <option value="Navy Officer">Navy Officer </option>
+                <option value="Mechanic">Mechanic</option>
+                <option value="Tailor">Tailor</option>
+                <option value="Driver">Driver</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Construction Worker">Construction Worker</option>
+                <option value="Writer">Writer</option>
+                <option value="Shopkeeper">Shopkeeper</option>
+                <option value="Labour">Labour</option>
+                <option value="Lawyer">Lawyer</option>
+                <option value="Security Guard">Security Guard</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="mobile_number">Mobile Number (Unique):</label>
             <input type="text" id="mobile_number" name="mobile_number"  required value="01">
         </div>
