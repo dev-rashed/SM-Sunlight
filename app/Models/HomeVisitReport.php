@@ -12,6 +12,7 @@ class HomeVisitReport extends Model
     protected $fillable = [
         'serial_number',
         'customer_name',
+        'occupation',
         'mobile_number',
         'village_name',
         'word_number',

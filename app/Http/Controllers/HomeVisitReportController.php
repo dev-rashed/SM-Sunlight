@@ -17,6 +17,7 @@ class HomeVisitReportController extends Controller
         $request->validate([
             'serial_number' => 'required',
             'customer_name' => 'required',
+            'occupation' => 'required',
             'mobile_number' => 'required|unique:home_visit_reports,mobile_number',
             'village_name' => 'required',
             'word_number' => 'required',

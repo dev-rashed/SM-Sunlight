@@ -43,6 +43,7 @@
             <tr>
                 <th>Serial Number</th>
                 <th>Customer Name</th>
+                <th>Occupation</th>
                 <th>Mobile Number</th>
                 <th>Village Name</th>
                 <th>Word Number</th>
@@ -61,6 +62,7 @@
             <tr>
                 <td>{{ $report->serial_number }}</td>
                 <td>{{ $report->customer_name }}</td>
+                <td>{{ $report->occupation }}</td>
                 <td>{{ $report->mobile_number }}</td>
                 <td>{{ $report->village_name }}</td>
                 <td>{{ $report->word_number }}</td>

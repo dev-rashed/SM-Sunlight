@@ -12,6 +12,7 @@ class CreateHomeVisitReportsTable extends Migration
             $table->id();
             $table->string('serial_number');
             $table->string('customer_name');
+            $table->string('occupation');
             $table->string('mobile_number')->unique();
             $table->string('village_name');
             $table->string('word_number');

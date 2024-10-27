@@ -89,6 +89,11 @@
         </div>
 
         <div class="form-group">
+            <label for="occupation">Occupation Name:</label>
+            <input type="text" id="occupation" name="occupation"  required>
+        </div>
+
+        <div class="form-group">
             <label for="mobile_number">Mobile Number (Unique):</label>
             <input type="text" id="mobile_number" name="mobile_number"  required value="01">
         </div>
