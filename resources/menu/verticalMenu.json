@@ -42,13 +42,6 @@
       "role": "admin,sales,manager"
     },
     {
-      "name": "SMS Settings",
-      "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "sms_setting",
-      "url": "sms_setting",
-      "role": "admin"
-    },
-    {
       "name": "App Settings",
       "icon": "menu-icon tf-icons bx bx-shape-polygon",
       "slug": "app_setting",
