@@ -73,27 +73,36 @@
         <a href="{{ route('homevisitreport.index') }}" class="btn btn-primary">View Home Visit Report</a>
 </h4>
 
+
+<div class="row">
+  <div class="col">
+    <div class="card mb-3 p-3">
+      <div class="row g-3">
 <div class="form-container">
     <h1>Add Home Visit Report Form</h1>
     <form action="{{ route('homevisitreport.store') }}" method="POST">
         @csrf
         
-        <div class="form-group">
-            <label for="serial_number">Serial Number:</label>
-            <input type="text" id="serial_number" name="serial_number"  required>
-        </div>
-
-        <div class="form-group">
+        
+<div class="row">
+  <div class="col">
+    <div class="card mb-3 p-3">
+      <div class="row g-3">
+          <div class="col-md-6">
+                <div class="form-group">
+                    <label for="serial_number">Serial Number:</label>
+                    <input type="text" id="serial_number" name="serial_number"  required>
+                </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
             <label for="customer_name">Customer Name:</label>
             <input type="text" id="customer_name" name="customer_name"  required>
-        </div>
-
-        <div class="form-group">
-            <label for="occupation">Occupation Name:</label>
-            <input type="text" id="occupation" name="occupation"  required>
-        </div>
-
-        <div class="form-group">
+            </div>
+          </div>
+          <div class="col-md-6">
+          <div class="form-group">
+            <div class="form-group">
             <label for="occupation">Occupation Name:</label>
             <select id="occupation" name="occupation" required>
                 <option value="" disabled selected>Select an Occupation</option>
@@ -130,18 +139,22 @@
                 <option value="Other">Other</option>
             </select>
         </div>
-
-        <div class="form-group">
+        </div>
+          </div>
+          <div class="col-md-6">
+          <div class="form-group">
             <label for="mobile_number">Mobile Number (Unique):</label>
             <input type="text" id="mobile_number" name="mobile_number"  required value="01">
         </div>
-
-        <div class="form-group">
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
             <label for="village_name">Village Name:</label>
             <input type="text" id="village_name" name="village_name" required>
-        </div>
-
-        <div class="form-group">
+            </div>
+          </div>
+          <div class="col-md-6">
+          <div class="form-group">
             <label for="word_number">Word Number:</label>
             <select id="word_number" name="word_number" required>
                 <option value="" disabled selected>Select a Union</option>
@@ -155,8 +168,9 @@
                 <option value="08">08</option>
                 <option value="09">09</option>
             </select>
-        </div>
-
+            </div>
+        </div>          
+        <div class="col-md-6">
         <div class="form-group">
             <label for="union_name">Union Name:</label>
             <select id="union_name" name="union_name" required>
@@ -177,8 +191,9 @@
                 <option value="Tentulia">Tentulia</option>
             </select>
         </div>
-
-
+        </div>        
+        
+        <div class="col-md-6">
         <div class="form-group">
             <label for="thana">Thana:</label>
             <select id="thana" name="thana" required>
@@ -187,7 +202,9 @@
                 <option value="Naogaon">Naogaon</option>
             </select>
         </div>
+        </div>        
 
+        <div class="col-md-6">
         <div class="form-group">
             <label for="district">District:</label>
             <select id="district" name="district" required>
@@ -195,24 +212,71 @@
                 <option value="Naogaon" selected >Naogaon</option>
             </select>
         </div>
+        </div>
 
+        <div class="col-md-12">
         <div class="form-group">
             <label for="home_appliance_have">Home Appliance Have:</label>
             <textarea id="home_appliance_have" name="home_appliance_have"  required >IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
+        </div>
 
+        <div class="col-md-12">
         <div class="form-group">
             <label for="home_appliance_not_have">Home Appliance Don't Have:</label>
             <textarea id="home_appliance_not_have" name="home_appliance_not_have">IPS Machine, IPS Battery, EV, ER, Solar Panel, Solar Battery, CC Camera</textarea>
         </div>
+        </div>
 
+        <div class="col-md-12">
         <div class="form-group">
             <label for="remarks">Remarks:</label>
             <textarea id="remarks" name="remarks"></textarea>
         </div>
+        </div>
 
-        <button type="submit" class="submit-btn">Submit</button>
+
+      <div class="row">
+         <div class="col-12 px-0">
+            <button type="submit" class="submit-btn">Submit</button>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </form>
 </div>
+</div>
+</div>
+
+
+
+
+
 
 @endsection
