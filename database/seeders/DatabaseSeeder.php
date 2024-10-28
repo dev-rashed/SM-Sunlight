@@ -45,5 +45,10 @@ class DatabaseSeeder extends Seeder
       'address' => 'চকগৌরী রোড দেলুয়াবাড়ি বাজার মান্দা  নওগাঁ।',
       'phone' => '01300945925',
     ]);
+    Store::create([
+      'name' => 'রংধনু ব্যাটারি হাউজ',
+      'address' => 'রানীনগর বাজার, নওগাঁ।',
+      'phone' => '01300945925',
+    ]);
   }
 }
