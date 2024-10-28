@@ -40,7 +40,8 @@ class InstituteVisitReportController extends Controller
     // Show all reports
     public function index()
     {
-        $instituteVisitReport = InstituteVisitReport::all();
+        // $instituteVisitReport = InstituteVisitReport::all();
+        $instituteVisitReport = InstituteVisitReport::orderBy('created_at', 'desc')->get();
         return view('institute_visit_report.index', compact('instituteVisitReport'));
     }
 }

@@ -42,7 +42,9 @@ class HomeVisitReportController extends Controller
     public function index()
     {
         // Get all data from the database
-        $homeVisitReports = HomeVisitReport::all();
+        // $homeVisitReports = HomeVisitReport::all();
+        $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->get();
+
 
         return view('home_visit_report.index', compact('homeVisitReports'));
     }
