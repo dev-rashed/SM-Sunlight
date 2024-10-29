@@ -69,10 +69,10 @@ class HomeVisitReportController extends Controller
         $homeVisitReports = HomeVisitReport::where('customer_name', 'like', '%' . $search . '%')
             ->orWhere('mobile_number', 'like', '%' . $search . '%')
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->paginate(25);
     } else {
         // Default view without filter
-        $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->paginate(5);
+        $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->paginate(25);
     }
 
     return view('home_visit_report.index', compact('homeVisitReports'));
