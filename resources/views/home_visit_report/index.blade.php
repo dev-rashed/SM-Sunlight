@@ -48,6 +48,12 @@
         padding: 6px 12px;
     }
 
+    @media (max-width: 768px) { /* Adjust max-width as needed for specific screen sizes */
+        .hide-on-mobile {
+            display: none;
+        }
+    }
+
 
     </style>
 
@@ -64,7 +70,8 @@
         <p>{{ session('success') }}</p>
     @endif
 
-    <h4>Home Visit Reports</h4>
+    //hided on Mobile
+    <h4 class="hide-on-mobile">Home Visit Reports</h4>
     
     <!-- Search Form -->
 
