@@ -21,6 +21,34 @@
         th {
             background-color: #f4f4f4;
         }
+
+        .search-form-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 20px;
+        margin-top:-50px ;
+    }
+
+    .search-form-container .form-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-form-container input[type="search"] {
+        width: 200px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        margin-right: 5px;
+    }
+
+    .search-form-container button {
+        border-radius: 4px;
+        padding: 6px 12px;
+    }
+
+
     </style>
 
 
@@ -37,6 +65,26 @@
     @endif
 
     <h4>Home Visit Reports</h4>
+    
+    <!-- Search Form -->
+
+    <!-- <form action="" class="col-md-2">
+        <div class="form-group">
+            <input type="search" name="search" class="form-control" placeholder="Search by name or number" value="{{ request('search') }}">
+            <button class="btn btn-primary">Search</button>
+        </div>
+    </form> -->
+
+
+    <div class="search-form-container">
+    <form action="{{ route('homevisitreport.index') }}" method="GET">
+        <div class="form-group">
+            <input type="search" name="search" class="form-control" placeholder="Search by name or number" value="{{ request('search') }}">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    </div>
+
 
 <div class="card">
     <div class="card-datatable table-responsive">
@@ -80,6 +128,12 @@
             @endforeach
         </tbody>
     </table>
+    <br>
+
+    <div class="row">
+    {{ $homeVisitReports->links() }}
+    </div>
+    <br>
     </div>
 </div>
 @endsection
