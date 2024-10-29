@@ -72,6 +72,7 @@
 
 <!-- hided on Mobile -->
     <h4 class="hide-on-mobile">Home Visit Reports</h4>
+    <br>
     
     <!-- Search Form -->
 
