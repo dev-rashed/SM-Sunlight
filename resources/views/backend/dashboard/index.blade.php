@@ -21,8 +21,20 @@
     
 </p>
 
-
+<!-- 
 <marquee behavior="scroll" direction="left" scrollamount="10" style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 15px; border-radius: 5px; margin-top: 20px;">Sunlight Battery House   ( সানলাইট ব্যাটারি হাউস )  |  Mayer Doa Battery House & IPS ( মায়ের দোয়া ব্যাটারী হাউস এন্ড আই.পি.এস )   |   Sunlight Battery & IPS  ( সানলাইট ব্যাটারী এন্ড আই.পি.এস  )  । Rangdhanu Battery House ( রংধনু ব্যাটারী হাউস )
+</marquee> -->
+
+<marquee behavior="scroll" direction="left" scrollamount="10" style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; margin-top: 20px;">Sunlight Battery House   ( সানলাইট ব্যাটারি হাউস )
+</marquee>
+
+<marquee behavior="scroll" direction="Right" scrollamount="10" style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; margin-top: 20px;">Mayer Doa Battery House & IPS ( মায়ের দোয়া ব্যাটারী হাউস এন্ড আই.পি.এস )
+</marquee>
+
+<marquee behavior="scroll" direction="left" scrollamount="10" style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; "> Sunlight Battery & IPS  ( সানলাইট ব্যাটারী এন্ড আই.পি.এস  )
+</marquee>
+
+<marquee behavior="scroll" direction="Right" scrollamount="10" style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; ">Rangdhanu Battery House ( রংধনু ব্যাটারী হাউস )
 </marquee>
 
 

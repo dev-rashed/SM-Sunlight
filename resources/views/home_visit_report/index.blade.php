@@ -70,7 +70,7 @@
         <p>{{ session('success') }}</p>
     @endif
 
-    //hided on Mobile
+<!-- hided on Mobile -->
     <h4 class="hide-on-mobile">Home Visit Reports</h4>
     
     <!-- Search Form -->
