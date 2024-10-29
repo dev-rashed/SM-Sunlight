@@ -125,9 +125,24 @@ class CustomerController extends Controller
     try {
       Mail::to(auth()->user()->email)->send(new NewApplicationMail($customer));
     } catch (\Throwable $th) {
-      //throw $th;
+      throw $th;
     }
 
+    // $user = User::with('store')->where('id', auth()->user()->id)->first();
+    // $message = app_setting('customer_sms');
+
+    // $message = str_replace('{sales_name}', $user->name, $message);
+    // $message = str_replace('{sales_phone}', $user->phone, $message);
+    // $message = str_replace('{store_name}', $user->store ? $user->store->name : "", $message);
+    // $message = str_replace('{store_phone}', $user->store ? $user->store->phone : "", $message);
+    // $message = str_replace('{store_address}', $user->store ? $user->store->address : "", $message);
+
+    // sms_send($request->phone, $message);
+
+
+
+
+    // Send SMS
     $user = User::with('store')->where('id', auth()->user()->id)->first();
     $message = app_setting('customer_sms');
 
@@ -137,13 +152,14 @@ class CustomerController extends Controller
     $message = str_replace('{store_phone}', $user->store ? $user->store->phone : "", $message);
     $message = str_replace('{store_address}', $user->store ? $user->store->address : "", $message);
 
-    sms_send($request->phone, $message);
-
+    send_customer_sms($request->phone, $message);
     return \redirect()
       ->route('customers.index')
       ->withSuccess('Application submitted successfully');
 
-  }
+}
+
+  
 
   /**
    * Display the specified resource.

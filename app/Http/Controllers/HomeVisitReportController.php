@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Models\HomeVisitReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 
 class HomeVisitReportController extends Controller
 {
@@ -35,17 +37,10 @@ class HomeVisitReportController extends Controller
         // Store the data in the database
         HomeVisitReport::create($request->all());
 
-        
-    // try {
-    //     Mail::to(auth()->user()->email)->send(new NewApplicationMail($homeVisitReport));
-    //   } catch (\Throwable $th) {
-    //     //throw $th;
-    // //   }
-  
-    //   $user = User::with('store')->where('id', auth()->user()->id)->first();
-    //   $message2 = app_setting('home_sms');
-  
-    //   sms_send($request->number2, $message2);
+       
+    // Get SMS template and send SMS
+    $message2 = app_setting('home_sms');
+    send_customer_sms($request->mobile_number, $message2);
   
     
 
@@ -73,3 +68,4 @@ class HomeVisitReportController extends Controller
 }
 
 }
+
