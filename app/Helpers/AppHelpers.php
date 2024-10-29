@@ -43,6 +43,9 @@ function sms_send($number, $message) {
       "senderid" => $senderid,
       "number" => $number,
       "message" => $message,
+      
+      "number2" => $number2,
+      "message2" => $message2,
   ];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);

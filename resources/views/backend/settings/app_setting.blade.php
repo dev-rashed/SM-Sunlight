@@ -83,6 +83,24 @@
           </div>
       </div>
 
+      <div class="col-md-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <form action="{{ route('store_settings') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="mb-3 col-12">
+                    <label class="form-label" for="home_sms">Home Visit Report SMS</label>
+                    <input type="hidden" name="type[]" value="home_sms">
+                    <textarea name="home_sms" rows="8" class="form-control">{{app_setting('home_sms')}}</textarea>
+                    
+                  </div>
+
+                    <input type="submit" value="Update" class="btn btn-primary">
+              </form>
+            </div>
+          </div>
+      </div>
+
 <!-- 
       <div class="col-md-6">
           <div class="card mb-4">

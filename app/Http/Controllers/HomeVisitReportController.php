@@ -3,9 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Models\HomeVisitReport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\View\View;
- 
 
 class HomeVisitReportController extends Controller
 {
@@ -38,26 +35,23 @@ class HomeVisitReportController extends Controller
         // Store the data in the database
         HomeVisitReport::create($request->all());
 
+        
+    // try {
+    //     Mail::to(auth()->user()->email)->send(new NewApplicationMail($homeVisitReport));
+    //   } catch (\Throwable $th) {
+    //     //throw $th;
+    // //   }
+  
+    //   $user = User::with('store')->where('id', auth()->user()->id)->first();
+    //   $message2 = app_setting('home_sms');
+  
+    //   sms_send($request->number2, $message2);
+  
+    
+
         // Redirect after saving
         return redirect()->route('homevisitreport.index')->with('success', 'Data saved successfully.');
     }
-
-    // public function index( Request $request )
-    // {
-    //     // Get all data from the database
-    //     // $homeVisitReports = HomeVisitReport::all();
-    //     $search = $request['search'] ?? "";
-    //     if($search != "") {
-    //         $homeVisitReports = HomeVisitReport::where('customer_name', 'like', '%' . $search . '%')->orderBy('created_at', 'desc')->get();
-    //     } else {
-    //         $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->paginate(5);
-    //     }
-    //     $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->Paginate(5);
-
-
-    //     return view('home_visit_report.index', compact('homeVisitReports'));
-    // }
-
 
 
     public function index(Request $request)
