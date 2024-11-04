@@ -31,18 +31,18 @@ class HomeVisitReportController extends Controller
             'remarks' => 'required',
             'created_at',
             'updated_at',
-            
+
         ]);
 
         // Store the data in the database
         HomeVisitReport::create($request->all());
 
-       
-    // Get SMS template and send SMS
-    $message2 = app_setting('home_sms');
-    send_customer_sms($request->mobile_number, $message2);
-  
-    
+
+        // Get SMS template and send SMS
+        $message2 = app_setting('home_sms');
+        send_customer_sms($request->mobile_number, $message2);
+
+
 
         // Redirect after saving
         return redirect()->route('homevisitreport.index')->with('success', 'Data saved successfully.');
@@ -50,22 +50,22 @@ class HomeVisitReportController extends Controller
 
 
     public function index(Request $request)
-{
-    $search = $request->input('search', '');
+    {
+        $search = $request->input('search', '');
 
-    if ($search != '') {
-        // Filter by customer name or mobile number
-        $homeVisitReports = HomeVisitReport::where('customer_name', 'like', '%' . $search . '%')
-            ->orWhere('mobile_number', 'like', '%' . $search . '%')
-            ->orderBy('created_at', 'desc')
-            ->paginate(25);
-    } else {
-        // Default view without filter
-        $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->paginate(25);
+        if ($search != '') {
+            // Filter by customer name or mobile number
+            $homeVisitReports = HomeVisitReport::where('customer_name', 'like', '%' . $search . '%')
+                ->orWhere('mobile_number', 'like', '%' . $search . '%')
+                ->orderBy('created_at', 'desc')
+                ->Paginate(10);
+        } else {
+            // Default view without filter
+            $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->Paginate(10);
+        }
+
+        return view('home_visit_report.index', compact('homeVisitReports'));
     }
-
-    return view('home_visit_report.index', compact('homeVisitReports'));
-}
 
 }
 

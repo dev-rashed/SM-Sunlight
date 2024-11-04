@@ -27,35 +27,35 @@ class CustomerController extends Controller
   public function index(Request $request)
   {
     if ($request->ajax()) {
-        if(auth()->user()->role == 'admin') {
-          $customers = Customer::with('addedBy')->get();
-        } else {
-          $customers = Customer::where('user_id', auth()->user()->id)->with('addedBy')->get();
-        }
+      if (auth()->user()->role == 'admin') {
+        $customers = Customer::with('addedBy')->get();
+      } else {
+        $customers = Customer::where('user_id', auth()->user()->id)->with('addedBy')->get();
+      }
 
-          return DataTables::of($customers)
-            ->addIndexColumn()
-            ->addColumn('status', function ($customer) {
-              $html = '<small>' . $customer->created_at . '</small><br>';
-              return $html;
-            })
-            ->addColumn('added_by', function ($customer) {
-              return isset($customer->addedBy) ? $customer->addedBy->name : 'Not Exist';
-            })
-            ->addColumn('action', function ($customer) {
-              $html = '<div class="btn-group" role="group" aria-label="Basic example">';
-              if(auth()->user()->role == 'admin') {
-                  $html .= '<a href="' . route('customers.edit', $customer->id) . '" class="btn px-2 btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>';
-              }
-              $html .= '<a href="'. route('customers.show', $customer->id) .'" class="btn px-2 btn-secondary"><i class="fa-regular fa-eye"></i></a>';
-              if(auth()->user()->role == 'admin') {
-                $html .='<a type="button" data-id="'. $customer->id .'" class="btn px-2 btn-danger text-white open_delete_modal" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></a>';
-              }
-              $html .= '</div>';
-              return $html;
-            })
-            ->rawColumns(['status', 'added_by', 'action'])
-            ->make(true);
+      return DataTables::of($customers)
+        ->addIndexColumn()
+        ->addColumn('status', function ($customer) {
+          $html = '<small>' . $customer->created_at . '</small><br>';
+          return $html;
+        })
+        ->addColumn('added_by', function ($customer) {
+          return isset($customer->addedBy) ? $customer->addedBy->name : 'Not Exist';
+        })
+        ->addColumn('action', function ($customer) {
+          $html = '<div class="btn-group" role="group" aria-label="Basic example">';
+          if (auth()->user()->role == 'admin') {
+            $html .= '<a href="' . route('customers.edit', $customer->id) . '" class="btn px-2 btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>';
+          }
+          $html .= '<a href="' . route('customers.show', $customer->id) . '" class="btn px-2 btn-secondary"><i class="fa-regular fa-eye"></i></a>';
+          if (auth()->user()->role == 'admin') {
+            $html .= '<a type="button" data-id="' . $customer->id . '" class="btn px-2 btn-danger text-white open_delete_modal" data-bs-toggle="modal" data-bs-target="#deleteModal"><i class="fa-solid fa-trash"></i></a>';
+          }
+          $html .= '</div>';
+          return $html;
+        })
+        ->rawColumns(['status', 'added_by', 'action'])
+        ->make(true);
     }
 
     return new Response(view('backend.customers.index'));
@@ -157,9 +157,9 @@ class CustomerController extends Controller
       ->route('customers.index')
       ->withSuccess('Application submitted successfully');
 
-}
+  }
 
-  
+
 
   /**
    * Display the specified resource.
@@ -260,81 +260,83 @@ class CustomerController extends Controller
     return response()->json(['success' => true, 'message' => 'Customer deleted successfully']);
   }
 
-  public function Reports(Request $request) {
-        if(auth()->user()->role == 'admin') {
-          $users = User::with('customers')->get();
-          $reports = [];
-          foreach ($users as $user) {
-               if (stripos($user->name, 'admin') !== false || stripos($user->username, 'admin') !== false || stripos($user->email, 'admin') !== false) {
-                    continue;
-                }
-                $report = [
-                    'name' => $user->name,
-                    'customers_today' => $user->customers()->whereDate('created_at', today())->count(),
-                    'customers_yesterday' => $user->customers()->whereDate('created_at', today()->subDay())->count(),
-                    'customers_this_week' => $user->customers()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
-                    'customers_this_month' => $user->customers()->whereMonth('created_at', now()->month)->count(),
-                    'customers_lifetime' => $user->customers()->count(),
-                ];
-                $reports[] = $report;
-            }
+  public function Reports(Request $request)
+  {
+    if (auth()->user()->role == 'admin') {
+      $users = User::with('customers')->get();
+      $reports = [];
+      foreach ($users as $user) {
+        if (stripos($user->name, 'admin') !== false || stripos($user->username, 'admin') !== false || stripos($user->email, 'admin') !== false) {
+          continue;
         }
+        $report = [
+          'name' => $user->name,
+          'customers_today' => $user->customers()->whereDate('created_at', today())->count(),
+          'customers_yesterday' => $user->customers()->whereDate('created_at', today()->subDay())->count(),
+          'customers_this_week' => $user->customers()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
+          'customers_this_month' => $user->customers()->whereMonth('created_at', now()->month)->count(),
+          'customers_lifetime' => $user->customers()->count(),
+        ];
+        $reports[] = $report;
+      }
+    }
 
-      if ($request->ajax()) {
-          return DataTables::of($reports)
-            ->addIndexColumn()
-            ->addColumn('name', function ($report) {
-                $html = "<div class=''>" .  $report['name'] . "</div>";
-                return $html;
-            })
-            ->addColumn('today', function ($report) {
-               $html = "<div class='text-center'>" .  $report['customers_today'] . "</div>";
-                return $html;
-            })
-            ->addColumn('yesterday', function ($report) {
-                $html = "<div class='text-center'>" .  $report['customers_yesterday'] . "</div>";
-                return $html;
-            })
-            ->addColumn('last_week', function ($report) {
-                $html = "<div class='text-center'>" .  $report['customers_this_week'] . "</div>";
-                return $html;
-            })
-            ->addColumn('last_month', function ($report) {
-                $html = "<div class='text-center'>" .  $report['customers_this_month'] . "</div>";
-                return $html;
-            })
-            ->addColumn('total', function ($report) {
-                $html = "<div class='text-center'>" . $report['customers_lifetime'] . "</div>";
-                return $html;
-            })
-            ->rawColumns(['name', 'today', 'yesterday', 'last_week', 'last_month', 'total' ])
-            ->make(true);
+    if ($request->ajax()) {
+      return DataTables::of($reports)
+        ->addIndexColumn()
+        ->addColumn('name', function ($report) {
+          $html = "<div class=''>" . $report['name'] . "</div>";
+          return $html;
+        })
+        ->addColumn('today', function ($report) {
+          $html = "<div class='text-center'>" . $report['customers_today'] . "</div>";
+          return $html;
+        })
+        ->addColumn('yesterday', function ($report) {
+          $html = "<div class='text-center'>" . $report['customers_yesterday'] . "</div>";
+          return $html;
+        })
+        ->addColumn('last_week', function ($report) {
+          $html = "<div class='text-center'>" . $report['customers_this_week'] . "</div>";
+          return $html;
+        })
+        ->addColumn('last_month', function ($report) {
+          $html = "<div class='text-center'>" . $report['customers_this_month'] . "</div>";
+          return $html;
+        })
+        ->addColumn('total', function ($report) {
+          $html = "<div class='text-center'>" . $report['customers_lifetime'] . "</div>";
+          return $html;
+        })
+        ->rawColumns(['name', 'today', 'yesterday', 'last_week', 'last_month', 'total'])
+        ->make(true);
     }
 
     return new Response(view('backend.customers.reports'));
   }
 
-    public function exportPdf() {
-        $users = User::with('customers')->get();
-        $reports = [];
-        foreach ($users as $user) {
-          if (stripos($user->name, 'admin') !== false || stripos($user->username, 'admin') !== false || stripos($user->email, 'admin') !== false) {
-                continue;
-            }
-            $report = [
-                'name' => $user->name,
-                'customers_today' => $user->customers()->whereDate('created_at', today())->count(),
-                'customers_yesterday' => $user->customers()->whereDate('created_at', today()->subDay())->count(),
-                'customers_this_week' => $user->customers()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
-                'customers_this_month' => $user->customers()->whereMonth('created_at', now()->month)->count(),
-                'customers_lifetime' => $user->customers()->count(),
-            ];
-            $reports[] = $report;
-        }
-
-        $pdf = Pdf::loadView('backend.customers.export-pdf', ['data' => $reports]);
-
-        return $pdf->download(time(). '.pdf');
+  public function exportPdf()
+  {
+    $users = User::with('customers')->get();
+    $reports = [];
+    foreach ($users as $user) {
+      if (stripos($user->name, 'admin') !== false || stripos($user->username, 'admin') !== false || stripos($user->email, 'admin') !== false) {
+        continue;
+      }
+      $report = [
+        'name' => $user->name,
+        'customers_today' => $user->customers()->whereDate('created_at', today())->count(),
+        'customers_yesterday' => $user->customers()->whereDate('created_at', today()->subDay())->count(),
+        'customers_this_week' => $user->customers()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
+        'customers_this_month' => $user->customers()->whereMonth('created_at', now()->month)->count(),
+        'customers_lifetime' => $user->customers()->count(),
+      ];
+      $reports[] = $report;
     }
+
+    $pdf = Pdf::loadView('backend.customers.export-pdf', ['data' => $reports]);
+
+    return $pdf->download(time() . '.pdf');
+  }
 
 }

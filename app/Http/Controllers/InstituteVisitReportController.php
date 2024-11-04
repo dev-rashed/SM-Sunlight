@@ -33,8 +33,13 @@ class InstituteVisitReportController extends Controller
         // Store data in the database
         InstituteVisitReport::create($request->all());
 
+
+        // Get SMS template and send SMS
+        $message2 = app_setting('institute_sms');
+        send_customer_sms($request->teachers_mobile_number, $message2);
+
         return redirect()->route('institutevisitreport.index')
-                         ->with('success', 'Report added successfully!');
+            ->with('success', 'Report added successfully!');
     }
 
     // Show all reports
