@@ -9,10 +9,14 @@
         width: 100%;
         border-collapse: collapse;
     }
-    table, th, td {
+
+    table,
+    th,
+    td {
         border: 1px solid #dee2e6;
         text-align: left;
     }
+
     th {
         background-color: #f8f9fa;
     }
@@ -49,11 +53,12 @@
 
     <!-- Page Title for larger screens -->
     <h4 class="hide-on-mobile">Home Visit Reports</h4>
-    
+
     <!-- Search Form -->
     <div class="search-form-container mb-3">
         <form action="{{ route('homevisitreport.index') }}" method="GET" class="d-flex">
-            <input type="search" name="search" class="form-control me-2" placeholder="Search by name or number" value="{{ request('search') }}">
+            <input type="search" name="search" class="form-control me-2" placeholder="Search by name or number"
+                value="{{ request('search') }}">
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
     </div>
@@ -82,22 +87,24 @@
                 </thead>
                 <tbody>
                     @foreach ($homeVisitReports as $report)
-                    <tr>
-                        <td>{{ $report->serial_number }}</td>
-                        <td>{{ $report->customer_name }}</td>
-                        <td>{{ $report->occupation }}</td>
-                        <td>{{ $report->mobile_number }}</td>
-                        <td>{{ $report->village_name }}</td>
-                        <td>{{ $report->word_number }}</td>
-                        <td>{{ $report->union_name }}</td>
-                        <td>{{ $report->thana }}</td>
-                        <td>{{ $report->district }}</td>
-                        <td>{{ $report->home_appliance_have }}</td>
-                        <td>{{ $report->home_appliance_not_have }}</td>
-                        <td>{{ $report->remarks }}</td>
-                        <td>{{ $report->created_at }}</td>
-                        <td>{{ $report->updated_at }}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $report->serial_number }}</td>
+                            <td>{{ $report->customer_name }}</td>
+                            <td>
+                                {{ $report->occupation === 'Other' ? $report->other : $report->occupation }}
+                            </td>
+                            <td>{{ $report->mobile_number }}</td>
+                            <td>{{ $report->village_name }}</td>
+                            <td>{{ $report->word_number }}</td>
+                            <td>{{ $report->union_name }}</td>
+                            <td>{{ $report->thana }}</td>
+                            <td>{{ $report->district }}</td>
+                            <td>{{ $report->home_appliance_have }}</td>
+                            <td>{{ $report->home_appliance_not_have }}</td>
+                            <td>{{ $report->remarks }}</td>
+                            <td>{{ $report->created_at }}</td>
+                            <td>{{ $report->updated_at }}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

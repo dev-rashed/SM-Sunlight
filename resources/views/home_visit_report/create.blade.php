@@ -56,29 +56,29 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="occupation" class="form-label">Occupation:</label>
-                        <select id="occupation" name="occupation" class="form-select" required>
+                        <select id="occupation" name="occupation" class="form-select" required
+                            onchange="toggleOtherInput()">
                             <option value="" disabled selected>Select an Occupation</option>
-                            <!-- List of occupations -->
-                            <option value="Farmer">Farmer </option>
-                            <option value="Fisherman">Fisherman </option>
-                            <option value="Teacher">Teacher </option>
-                            <option value="Professor">Professor </option>
-                            <option value="Lecturer">Lecturer </option>
-                            <option value="Doctor">Doctor </option>
-                            <option value="Nurse">Nurse </option>
-                            <option value="Pharmacist">Pharmacist </option>
-                            <option value="Dentist">Dentist </option>
-                            <option value="Engineer">Engineer </option>
-                            <option value="Business">Business </option>
-                            <option value="Politician">Politician </option>
-                            <option value="Journalist">Journalist </option>
-                            <option value="Manager">Manager </option>
-                            <option value="Accountant">Accountant </option>
-                            <option value="Sales Representative">Sales Representative </option>
-                            <option value="Banker">Banker </option>
-                            <option value="Police Officer">Police Officer </option>
-                            <option value="Army Officer">Army Officer </option>
-                            <option value="Navy Officer">Navy Officer </option>
+                            <option value="Farmer">Farmer</option>
+                            <option value="Fisherman">Fisherman</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Professor">Professor</option>
+                            <option value="Lecturer">Lecturer</option>
+                            <option value="Doctor">Doctor</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Pharmacist">Pharmacist</option>
+                            <option value="Dentist">Dentist</option>
+                            <option value="Engineer">Engineer</option>
+                            <option value="Business">Business</option>
+                            <option value="Politician">Politician</option>
+                            <option value="Journalist">Journalist</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Accountant">Accountant</option>
+                            <option value="Sales Representative">Sales Representative</option>
+                            <option value="Banker">Banker</option>
+                            <option value="Police Officer">Police Officer</option>
+                            <option value="Army Officer">Army Officer</option>
+                            <option value="Navy Officer">Navy Officer</option>
                             <option value="Mechanic">Mechanic</option>
                             <option value="Tailor">Tailor</option>
                             <option value="Driver">Driver</option>
@@ -91,6 +91,12 @@
                             <option value="Security Guard">Security Guard</option>
                             <option value="Other">Other</option>
                         </select>
+                    </div>
+
+                    <!-- Other input field (hidden by default) -->
+                    <div id="other-input-field" class="form-group" style="display: none; padding-top: 15px;">
+                        <label for="other">Please specify occupation:</label>
+                        <input type="text" id="other" name="other" class="form-control">
                     </div>
                 </div>
 
@@ -144,6 +150,61 @@
                             <option value="Paranpur">Paranpur</option>
                             <option value="Proshadpur">Proshadpur</option>
                             <option value="Tentulia">Tentulia</option>
+                            <option value="Ashanganj">Ashanganj</option>
+                            <option value="Bhonpara">Bhonpara</option>
+                            <option value="Bisha">Bisha</option>
+                            <option value="Hatkalupara">Hatkalupara</option>
+                            <option value="Kalikapur">Kalikapur</option>
+                            <option value="Maniari">Maniari</option>
+                            <option value="Panchupur">Panchupur</option>
+                            <option value="Sahagola">Sahagola</option>
+                            <option value="Bahadurpur">Bahadurpur</option>
+                            <option value="Bhabicha">Bhabicha</option>
+                            <option value="Chandan_Nagar">Chandan_Nagar</option>
+                            <option value="Hajinagar">Hajinagar</option>
+                            <option value="Niamatpur">Niamatpur</option>
+                            <option value="Parail">Parail</option>
+                            <option value="Rasulpur">Rasulpur</option>
+                            <option value="Sreemantapur">Sreemantapur</option>
+                            <option value="Bakshimail">Bakshimail</option>
+                            <option value="Dhurail">Dhurail</option>
+                            <option value="Ghasigram">Ghasigram</option>
+                            <option value="Jahanabad">Jahanabad</option>
+                            <option value="Maugachhi">Maugachhi</option>
+                            <option value="Rayghati">Rayghati</option>
+                            <option value="Badhair">Badhair</option>
+                            <option value="Chanduria">Chanduria</option>
+                            <option value="Kalma">Kalma</option>
+                            <option value="Kamargaon">Kamargaon</option>
+                            <option value="Pachandar">Pachandar</option>
+                            <option value="Saranjai">Saranjai</option>
+                            <option value="Talanda">Talanda</option>
+                            <option value="Auchpara">Auchpara</option>
+                            <option value="Basupara">Basupara</option>
+                            <option value="Borobihanoli">Borobihanoli</option>
+                            <option value="Dippur">Dippur</option>
+                            <option value="Ganipur">Ganipur</option>
+                            <option value="Gobindapara">Gobindapara</option>
+                            <option value="Gualkandi">Gualkandi</option>
+                            <option value="Hamirkutsa">Hamirkutsa</option>
+                            <option value="Jogipara">Jogipara</option>
+                            <option value="Kacharikoalipara">Kacharikoalipara</option>
+                            <option value="Maria">Maria</option>
+                            <option value="Nordas">Nordas</option>
+                            <option value="Sonadanaga">Sonadanaga</option>
+                            <option value="Sreepur">Sreepur</option>
+                            <option value="Suvodanga">Suvodanga</option>
+                            <option value="Zhikra">Zhikra</option>
+                            <option value="Bhimpur">Bhimpur</option>
+                            <option value="Chandas">Chandas</option>
+                            <option value="Cheragpur">Cheragpur</option>
+                            <option value="Enayetpur">Enayetpur</option>
+                            <option value="Hatur">Hatur</option>
+                            <option value="Khajur">Khajur</option>
+                            <option value="Mahadevpur">Mahadevpur</option>
+                            <option value="Raigaon">Raigaon</option>
+                            <option value="Safapur">Safapur</option>
+                            <option value="Uttargram">Uttargram</option>
                         </select>
                     </div>
                 </div>
@@ -154,6 +215,19 @@
                         <select id="thana" name="thana" class="form-select" required>
                             <option value="" disabled selected>Select a Thana</option>
                             <option value="Manda">Manda</option>
+                            <!-- <option value="Atrai">Atrai</option> -->
+                            <!-- <option value="Dhamoirhat">Dhamoirhat</option> -->
+                            <!-- <option value="Badalgachhi">Badalgachhi</option> -->
+                            <option value="Niamatpur">Niamatpur</option>
+                            <option value="Mohadevpur">Mohadevpur</option>
+                            <!-- <option value="Patnitala">Patnitala</option> -->
+                            <!-- <option value="Porsha">Porsha</option> -->
+                            <!-- <option value="Sapahar">Sapahar</option> -->
+                            <!-- <option value="Raninagar">Raninagar</option> -->
+                            <option value="Bagmara">Bagmara</option>
+                            <option value="Mohanpur">Mohanpur</option>
+                            <option value="Tanore">Tanore</option>
+                            <!-- <option value="Paba">Paba</option> -->
                             <!-- <option value="Naogaon">Naogaon</option> -->
                         </select>
                     </div>
@@ -165,6 +239,7 @@
                         <select id="district" name="district" class="form-select" required>
                             <option value="" disabled selected>Select a District</option>
                             <option value="Naogaon">Naogaon</option>
+                            <option value="Rajshahi">Rajshahi</option>
                         </select>
                     </div>
                 </div>
@@ -200,4 +275,16 @@
     </div>
 </div>
 
+<script>
+    function toggleOtherInput() {
+        const occupationSelect = document.getElementById('occupation');
+        const otherInputField = document.getElementById('other-input-field');
+
+        if (occupationSelect.value === 'Other') {
+            otherInputField.style.display = 'block';
+        } else {
+            otherInputField.style.display = 'none';
+        }
+    }
+</script>
 @endsection
