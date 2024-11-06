@@ -57,8 +57,13 @@ class HomeVisitReportController extends Controller
             // Filter by customer name or mobile number
             $homeVisitReports = HomeVisitReport::where('customer_name', 'like', '%' . $search . '%')
                 ->orWhere('mobile_number', 'like', '%' . $search . '%')
+                ->orWhere('occupation', 'like', '%' . $search . '%')
+                ->orWhere('village_name', 'like', '%' . $search . '%')
+                ->orWhere('union_name', 'like', '%' . $search . '%')
+                ->orWhere('thana', 'like', '%' . $search . '%')
+                ->orWhere('district', 'like', '%' . $search . '%')
                 ->orderBy('created_at', 'desc')
-                ->Paginate(10);
+                ->Paginate(1000);
         } else {
             // Default view without filter
             $homeVisitReports = HomeVisitReport::orderBy('created_at', 'desc')->Paginate(10);

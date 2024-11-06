@@ -90,9 +90,7 @@
                         <tr>
                             <td>{{ $report->serial_number }}</td>
                             <td>{{ $report->customer_name }}</td>
-                            <td>
-                                {{ $report->occupation === 'Other' ? $report->other : $report->occupation }}
-                            </td>
+                            <td>{{ $report->occupation }}</td>
                             <td>{{ $report->mobile_number }}</td>
                             <td>{{ $report->village_name }}</td>
                             <td>{{ $report->word_number }}</td>

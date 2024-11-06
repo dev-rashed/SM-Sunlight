@@ -91,12 +91,7 @@
                             <option value="Security Guard">Security Guard</option>
                             <option value="Other">Other</option>
                         </select>
-                    </div>
 
-                    <!-- Other input field (hidden by default) -->
-                    <div id="other-input-field" class="form-group" style="display: none; padding-top: 15px;">
-                        <label for="other">Please specify occupation:</label>
-                        <input type="text" id="other" name="other" class="form-control">
                     </div>
                 </div>
 
@@ -275,16 +270,4 @@
     </div>
 </div>
 
-<script>
-    function toggleOtherInput() {
-        const occupationSelect = document.getElementById('occupation');
-        const otherInputField = document.getElementById('other-input-field');
-
-        if (occupationSelect.value === 'Other') {
-            otherInputField.style.display = 'block';
-        } else {
-            otherInputField.style.display = 'none';
-        }
-    }
-</script>
 @endsection
