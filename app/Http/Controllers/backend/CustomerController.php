@@ -123,7 +123,7 @@ class CustomerController extends Controller
     $customer->save();
 
     try {
-      Mail::to(auth()->user()->email)->send(new NewApplicationMail($customer));
+      // Mail::to(auth()->user()->email)->send(new NewApplicationMail($customer));
     } catch (\Throwable $th) {
       throw $th;
     }
