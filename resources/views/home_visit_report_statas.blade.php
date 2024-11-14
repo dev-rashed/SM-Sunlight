@@ -6,8 +6,10 @@
 <div class="container-fluid">
 
     <h4 class="py-3 breadcrumb-wrapper mb-4 text-center">Md. Abdur Rahim Data</h4>
-    <!-- <a href="{{ route('home_visit_report.exportPdf') }}" class="btn btn-primary mb-3">Export to PDF</a> -->
-
+    <div style="text-align: end;"><a href="{{ route('home_visit_report.exportPdf') }}"
+            class="btn btn-primary mb-3 ">Export
+            to PDF</a>
+    </div>
 
     <div class="card">
         <div class="card-body">

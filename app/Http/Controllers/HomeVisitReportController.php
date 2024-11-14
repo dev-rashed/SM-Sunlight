@@ -91,19 +91,28 @@ class HomeVisitReportController extends Controller
 
 
 
+
     public function exportPdf()
     {
-        $todayCount = HomeVisitReport::whereDate('created_at', today())->count();
-        $yesterdayCount = HomeVisitReport::whereDate('created_at', now()->subDay())->count();
-        $lastWeekCount = HomeVisitReport::whereBetween('created_at', [now()->subWeek(), now()])->count();
-        $lastMonthCount = HomeVisitReport::whereBetween('created_at', [now()->subMonth(), now()])->count();
-        $totalCount = HomeVisitReport::count();
+        // Create the data for the report
+        $data1 = [
+            [
+                'name' => 'Home Visit Reports',
+                'homeVisitReport_today' => HomeVisitReport::whereDate('created_at', today())->count(),
+                'homeVisitReport_yesterday' => HomeVisitReport::whereDate('created_at', now()->subDay())->count(),
+                'homeVisitReport_this_week' => HomeVisitReport::whereBetween('created_at', [now()->subWeek(), now()])->count(),
+                'homeVisitReport_this_month' => HomeVisitReport::whereBetween('created_at', [now()->subMonth(), now()])->count(),
+                'homeVisitReport_lifetime' => HomeVisitReport::count(),
+            ]
+        ];
 
-        $pdf = PDF::loadView('pdf.home_visit_report_statas', compact('todayCount', 'yesterdayCount', 'lastWeekCount', 'lastMonthCount', 'totalCount'));
+        // Generate PDF using the view
+        $pdf = PDF::loadView('home_visit_report.exportPdf', compact('data1'));
 
-        // Download the PDF
+        // Return the PDF as a download
         return $pdf->download('home_visit_report_statistics.pdf');
     }
+
 
 
 

@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/home-visit-report-stats', [HomeVisitReportController::class, 'stats'])->name('homevisitreport.stats');
 
-  Route::get('/home-visit-report/export-pdf', [HomeVisitReportController::class, 'exportPdf'])->name('home_visit_report.exportPdf');
+  Route::get('/home-visit-report/exportPdf', [HomeVisitReportController::class, 'exportPdf'])->name('home_visit_report.exportPdf');
 
 
 
