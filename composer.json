@@ -10,7 +10,7 @@
   "require": {
     "php": "^8.0.2",
     "appslabke/lara-izitoast": "^1.1",
-    "barryvdh/laravel-dompdf": "^2.0",
+    "barryvdh/laravel-dompdf": "*",
     "fruitcake/laravel-cors": "^2.0.5",
     "guzzlehttp/guzzle": "^7.2",
     "intervention/image": "^3.2",

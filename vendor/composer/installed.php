@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '850d03d1d7f8d800a929b45e5d6c8fcf254c2db9',
+        'reference' => '458c80937f6cf3b3aaa8058f7b4c3068b413d506',
         'type' => 'adnetwork',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -502,7 +502,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '850d03d1d7f8d800a929b45e5d6c8fcf254c2db9',
+            'reference' => '458c80937f6cf3b3aaa8058f7b4c3068b413d506',
             'type' => 'adnetwork',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
