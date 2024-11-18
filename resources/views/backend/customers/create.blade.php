@@ -95,7 +95,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label" for="map_screenshot">Google Map Screenshot</label>
-            <input type="file" class="form-control mb-1" accept="image/*" capture="environment" name="map_screenshot">
+            <input type="file" class="form-control mb-1" accept="image/*" name="map_screenshot">
             <div class="screenshotImagePreview imagePreview">
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
             </div>
