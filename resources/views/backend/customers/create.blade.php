@@ -71,7 +71,7 @@
         </div>
         <hr>
         <div class="row g-3">
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <label class="form-label" for="selfie_with_customer">Selfie with customer</label>
             <input type="file" class="form-control mb-1" value="" accept=".jpg,.jpeg,.png" name="selfie_with_customer">
             <div class="selfieImagePreview imagePreview">
@@ -84,7 +84,23 @@
             <div class="screenshotImagePreview imagePreview">
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
             </div>
+          </div> -->
+          <div class="col-md-6">
+            <label class="form-label" for="selfie_with_customer">Selfie with customer</label>
+            <input type="file" class="form-control mb-1" accept="image/*" capture="environment"
+              name="selfie_with_customer">
+            <div class="selfieImagePreview imagePreview">
+              <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
+            </div>
           </div>
+          <div class="col-md-6">
+            <label class="form-label" for="map_screenshot">Google Map Screenshot</label>
+            <input type="file" class="form-control mb-1" accept="image/*" capture="environment" name="map_screenshot">
+            <div class="screenshotImagePreview imagePreview">
+              <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
+            </div>
+          </div>
+          <div id="browserInfo" class="text-muted mt-2"></div>
           <hr>
           <div class="row">
             <div class="col-12 px-0">
@@ -94,7 +110,6 @@
         </div>
       </div>
     </div>
-
 </form>
 
 @endsection
@@ -155,7 +170,31 @@
 
   // Set the value of the date input field
   dateInput.value = formattedDate;
+  document.addEventListener("DOMContentLoaded", function () {
+    const browserInfoDiv = document.getElementById("browserInfo");
+    const userAgent = navigator.userAgent;
 
+    let browser, version;
+
+    if (userAgent.indexOf("Firefox") > -1) {
+      browser = "Firefox";
+      version = userAgent.match(/Firefox\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("Chrome") > -1 && userAgent.indexOf("Edge") === -1 && userAgent.indexOf("Edg") === -1) {
+      browser = "Chrome";
+      version = userAgent.match(/Chrome\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("Safari") > -1 && userAgent.indexOf("Chrome") === -1) {
+      browser = "Safari";
+      version = userAgent.match(/Version\/([\d.]+)/)[1];
+    } else if (userAgent.indexOf("Edge") > -1 || userAgent.indexOf("Edg") > -1) {
+      browser = "Edge";
+      version = userAgent.match(/(Edge|Edg)\/([\d.]+)/)[2];
+    } else {
+      browser = "Unknown Browser";
+      version = "Unknown Version";
+    }
+
+    browserInfoDiv.textContent = `Browser: ${browser}, Version: ${version}`;
+  });
 
 </script>
 
