@@ -89,6 +89,9 @@
                             <option value="Labour">Labour</option>
                             <option value="Lawyer">Lawyer</option>
                             <option value="Security Guard">Security Guard</option>
+                            <option value="Imam">Imam</option>
+                            <option value="Moajjem">Moajjem</option>
+                            <option value="Housewife">Housewife</option>
                             <option value="Other">Other</option>
                         </select>
 
