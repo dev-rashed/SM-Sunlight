@@ -85,9 +85,24 @@
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
             </div>
           </div> -->
-          <div class="col-md-6">
+
+
+
+
+          <!-- <div class="col-md-6">
             <label class="form-label" for="selfie_with_customer">Selfie with customer</label>
             <input type="file" class="form-control mb-1" accept="image/*" capture="environment"
+              name="selfie_with_customer">
+            <div class="selfieImagePreview imagePreview">
+              <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
+            </div>
+          </div> -->
+
+
+
+          <div class="col-md-6">
+            <label class="form-label" for="selfie_with_customer">Selfie with customer</label>
+            <input type="file" class="form-control mb-1" value="" accept=".jpg,.jpeg,.png" capture="environment"
               name="selfie_with_customer">
             <div class="selfieImagePreview imagePreview">
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
@@ -95,7 +110,7 @@
           </div>
           <div class="col-md-6">
             <label class="form-label" for="map_screenshot">Google Map Screenshot</label>
-            <input type="file" class="form-control mb-1" accept="image/*" name="map_screenshot">
+            <input type="file" class="form-control mb-1" value="" accept=".jpg,.jpeg,.png" name="map_screenshot">
             <div class="screenshotImagePreview imagePreview">
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
             </div>
