@@ -92,6 +92,10 @@
                             <option value="Imam">Imam</option>
                             <option value="Moajjem">Moajjem</option>
                             <option value="Housewife">Housewife</option>
+                            <option value="Sub-Assistant Agriculture Officer">Sub-Assistant Agriculture Officer</option>
+                            <option value="Member">Member</option>
+                            <option value="Chiarman">Chiarman</option>
+                            <option value="Technologist">Technologist</option>
                             <option value="Other">Other</option>
                         </select>
 
