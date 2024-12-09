@@ -48,6 +48,18 @@
   ( রংধনু ব্যাটারী হাউস )
 </marquee>
 
+<marquee behavior="scroll" direction="left" scrollamount="5"
+  style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; ">Sunlight Battery House
+  - 2
+  ( সানলাইট ব্যাটারি হাউস - ২ )
+</marquee>
+
+<marquee behavior="scroll" direction="Right" scrollamount="5"
+  style="color:#0E56A1; font-weight: bold; font-size:22px;   padding: 1px; border-radius: 5px; ">Sunlight Battery House
+  - 3
+  ( সানলাইট ব্যাটারি হাউস - ৩ )
+</marquee>
+
 
 
 
