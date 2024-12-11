@@ -91,8 +91,7 @@
 
           <div class="col-md-6">
             <label class="form-label" for="selfie_with_customer">Selfie with customer</label>
-            <input type="file" class="form-control mb-1" accept="image/*" capture="environment"
-              name="selfie_with_customer">
+            <input type="file" class="form-control mb-1" accept="image/*;capture=camera" name="selfie_with_customer">
             <div class="selfieImagePreview imagePreview">
               <img src="{{ asset('assets/img/no-preview.jpeg') }}" alt="">
             </div>
